@@ -1,7 +1,11 @@
-import Button from '@/app/components/button'
+import Button from '@/app/components/Button'
 import Input from '@/app/components/Input'
+import Navbar from '@/app/components/Navbar'
+import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
+import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
+import { cn } from '@/app/styles/cn'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { HelpCircle } from 'react-feather'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 
@@ -14,6 +18,23 @@ type IFormInputs = {
 export function Home() {
   const [edlValue, setEdlValue] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  type CalculationKey = 'numberOfDucts' | 'averageIlluminance'
+  const [selectedCalculation, setSelectedCalculation] =
+    useState<CalculationKey>('numberOfDucts')
+
+  const calculations: Record<
+    CalculationKey,
+    { title: string; component: ReactNode }
+  > = {
+    numberOfDucts: {
+      title: 'Número de Dutos',
+      component: <NumberOfDucts />
+    },
+    averageIlluminance: {
+      title: 'Iluminância Média',
+      component: <AverageIlluminance />
+    }
+  }
 
   const {
     register,
@@ -32,9 +53,9 @@ export function Home() {
   }
 
   return (
-    <main className="mx-auto grid h-svh max-w-5xl grid-rows-[fit_fit] px-4 py-4 sm:px-6 lg:px-8">
-      <nav className="bg-background-500 flex h-24 w-full flex-col items-center justify-center rounded-sm"></nav>
-      <div>
+    <main className="mx-auto grid h-svh w-full max-w-5xl grid-rows-[fit_fit] px-4 py-4 sm:px-6 lg:px-8">
+      <Navbar />
+      <div className="flex flex-col gap-y-8 py-8">
         <LayoutGroup>
           <motion.div
             animate={{ opacity: 1, y: 0 }}
@@ -128,19 +149,44 @@ export function Home() {
                   </p>
                   <div className="flex w-full flex-row items-center justify-evenly">
                     <button
-                      onClick={() => {}}
-                      className="text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 transition-colors duration-300"
+                      onClick={() => {
+                        setSelectedCalculation('numberOfDucts')
+                      }}
+                      className={cn(
+                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 transition-colors duration-300',
+                        selectedCalculation === 'numberOfDucts' &&
+                          'bg-accent-400 text-text-50'
+                      )}
                     >
                       Nº de dutos
                     </button>
                     <button
-                      onClick={() => {}}
-                      className="text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 transition-colors duration-300"
+                      onClick={() => {
+                        setSelectedCalculation('averageIlluminance')
+                      }}
+                      className={cn(
+                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 transition-colors duration-300',
+                        selectedCalculation === 'averageIlluminance' &&
+                          'bg-accent-400 text-text-50'
+                      )}
                     >
                       Iluminância média
                     </button>
                   </div>
                 </div>
+                <AnimatePresence>
+                  {calculations[selectedCalculation] && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full"
+                    >
+                      {calculations[selectedCalculation].component}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             )}
           </AnimatePresence>
