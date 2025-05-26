@@ -7,13 +7,17 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "pretty": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "lint": "eslint src --fix"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.9.0",
+    "motion": "^12.14.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-feather": "^2.0.10",
+    "react-hook-form": "^7.56.4",
     "react-router-dom": "^7.6.0",
     "tailwindcss": "^4.1.7"
   },
