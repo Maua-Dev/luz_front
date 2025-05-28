@@ -6,7 +6,7 @@ function Navbar() {
     */
 
   return (
-    <nav className="bg-background-900 flex h-20 w-full flex-row items-center gap-x-8 rounded-sm px-8">
+    <nav className="bg-background-900 flex h-20 w-full flex-row items-center gap-x-8 px-8 sticky top-0 z-50">
       <img src="icon.svg" alt="Logo" className="h-10" />
       <ul className="flex flex-row items-center justify-start gap-x-8 text-base">
         <li className="text-text-50 hover:text-accent-400 cursor-pointer transition-colors duration-300">

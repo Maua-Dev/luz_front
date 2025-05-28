@@ -53,9 +53,10 @@ export function Home() {
   }
 
   return (
-    <main className="mx-auto grid h-svh w-full max-w-5xl grid-rows-[fit_fit] px-4 py-4 sm:px-6 lg:px-8">
-      <Navbar />
-      <div className="flex flex-col gap-y-8 py-8">
+    <>
+    <Navbar />
+    <main className="mx-auto flex items-center justify-center h-full w-full max-w-5xl px-4 py-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col gap-y-8 py-8 w-full">
         <LayoutGroup>
           <motion.div
             animate={{ opacity: 1, y: 0 }}
@@ -193,5 +194,6 @@ export function Home() {
         </LayoutGroup>
       </div>
     </main>
+    </>
   )
 }
