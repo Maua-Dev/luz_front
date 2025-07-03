@@ -8,6 +8,10 @@ import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { useState, type ReactNode } from 'react'
 import { HelpCircle } from 'react-feather'
 import { useForm, type SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {IFormInputsSchema} from '@/app/pages/services/atributes-validation'
+import { DrawerInformation } from '@/app/pages/iformation'
+import { HowToUseDrawer } from '@/app/pages/how-to-use'
 
 type IFormInputs = {
   section: number
@@ -40,8 +44,11 @@ export function Home() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<IFormInputs>()
+  } = useForm<IFormInputs>({
+    resolver: zodResolver(IFormInputsSchema),
+  })
   const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data)
+  
 
   function handleSubmitData() {
     setIsLoading(true)
@@ -86,7 +93,7 @@ export function Home() {
                 }}
                 type="number"
                 placeholder="x (Metros)"
-                id="inputValue"
+                id="section"
               />
               <Input
                 label="h (Altura)"
@@ -99,7 +106,7 @@ export function Home() {
                 }}
                 type="number"
                 placeholder="h (Metros)"
-                id="inputHeight"
+                id="height"
               />
               <Input
                 label="ρ (Refletância)"
@@ -112,7 +119,7 @@ export function Home() {
                 }}
                 type="number"
                 placeholder="z"
-                id="inputReflectance"
+                id="reflectance"
               />
               <div>
                 <p className="text-lg">Resultado:</p>
@@ -193,6 +200,8 @@ export function Home() {
           </AnimatePresence>
         </LayoutGroup>
       </div>
+      {/* <DrawerInformation></DrawerInformation>
+      <HowToUseDrawer></HowToUseDrawer> */}
     </main>
     </>
   )
