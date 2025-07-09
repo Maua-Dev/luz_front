@@ -6,18 +6,10 @@ import {InlineMath} from 'react-katex';
 
 function EDLFormula(){
     return(
-        // <BlockMath math={`
-        //     EDL = \\sin^2(x) \\cdot \\arctan\\left(\\frac{b}{2h}\\right) + 
-        //     \\sum^n_{i=1} \\left( 
-        //     \\sin^2(x) \\cdot \\arctan\\left[\\left(i + \\frac{1}{2}\\right) \\cdot \\frac{b}{h}\\right] - 
-        //     \\sin^2(x) \\cdot \\arctan\\left[\\left(i - \\frac{1}{2}\\right) \\cdot \\frac{b}{h}\\right] 
-        //     \\right) \\cdot \\rho^i
-        //     `}
-        // />
     <BlockMath math={`
         \\begin{aligned}
-        EDL &= \\sin^2(x) \\cdot \\arctan\\left(\\frac{b}{2h}\\right) \\\\
-        &\\quad + \\sin^2(x) \\cdot \\sum^n_{i=1} \\Bigg[ \\arctan\\left(\\left(i + \\frac{1}{2}\\right)\\frac{b}{h}\\right) \\\\
+        EDL &= \\sin^2(θ) \\cdot \\arctan\\left(\\frac{b}{2h}\\right) \\\\
+        &\\quad + \\sin^2(θ) \\cdot \\sum^n_{i=1} \\Bigg[ \\arctan\\left(\\left(i + \\frac{1}{2}\\right)\\frac{b}{h}\\right) \\\\
         &\\quad\\quad - \\arctan\\left(\\left(i - \\frac{1}{2}\\right)\\frac{b}{h}\\right) \\Bigg] \\rho^i
         \\end{aligned}
     `} />

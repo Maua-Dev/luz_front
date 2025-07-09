@@ -1,8 +1,8 @@
 import { X } from 'lucide-react';
 import { Drawer, DrawerContent, DrawerTopbar } from '@/app/components/drawer';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { DrawerProvider } from '@/app/contexts/Drawer-context';
+import { DrawerContext } from '@/app/contexts/Drawer-context';
 
 function Explanation() {
     return (
@@ -19,8 +19,12 @@ function Explanation() {
 }
 
 export function HowToUseDrawer() {
+    const context = useContext(DrawerContext)
+    if (!context) {
+        throw new Error('HowToUseDrawe must be used within a DrawerContex')
+    }
     return (
-        <Drawer>
+        <Drawer isOpen={context.isOpen} setIsOpen={context.setIsOpen}>
             <DrawerContent>
                 <DrawerTopbar>Como Usar</DrawerTopbar>
                 <Explanation />

@@ -7,45 +7,49 @@ import {
     type SetStateAction,
 } from 'react'
 import { X } from 'react-feather'
-import { DrawerContext, DrawerProvider, useDrawer } from '@/app/contexts/Drawer-context'
 
-// interface DrawerContext {
-//   isOpen: boolean
-//   setIsOpen: Dispatch<SetStateAction<boolean>>
-// }
+interface DrawerContext {
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+}
 
-// const DrawerContext = createContext<DrawerContext | undefined>(undefined)
+const DrawerContext = createContext<DrawerContext | undefined>(undefined)
 
-function Drawer({ children }: { children: ReactNode }) {
-    const context = useContext(DrawerContext)
-
-    if (!context) {
-        throw new Error('Drawer must be used within a DrawerProvider')
-    }
-
+function Drawer({
+    children,
+    isOpen,
+    setIsOpen,
+}: {
+    children: ReactNode
+    isOpen: boolean
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+}) 
+{
     return (
-        <AnimatePresence>
-            {context.isOpen && (
-                <motion.div
-                    ref={(el) => {
-                        if (el) {
-                            el.addEventListener('click', (e) => {
-                                if (e.target === el) {
-                                    context.setIsOpen(false)
-                                }
-                            })
-                        }
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="fixed top-0 right-0 w-full h-full bg-black/40 z-50"
-                >
-                    {children}
-                </motion.div>
-            )}
-        </AnimatePresence>
+        <DrawerContext.Provider value={{ isOpen, setIsOpen }}>
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        ref={(el) => {
+                            if (el) {
+                                el.addEventListener('click', (e) => {
+                                    if (e.target === el) {
+                                        setIsOpen(false)
+                                    }
+                                })
+                            }
+                        }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="fixed top-0 right-0 w-full h-full bg-black/40 z-100"
+                    >
+                        {children}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </DrawerContext.Provider>
     )
 }
 
@@ -60,7 +64,7 @@ function DrawerContent({ children }: { children: ReactNode }) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 right-0 w-6/7 md:w-2xl lg:w-1/3 h-full bg-white z-50 flex flex-col overflow-y-auto"
+            className="fixed top-0 right-0 w-6/7 md:w-2xl lg:w-1/3 h-full bg-white z-100 flex flex-col overflow-y-auto"
         >
             {children}
         </motion.div>
@@ -87,12 +91,4 @@ function DrawerTopbar({ children }: { children: ReactNode }) {
     )
 }
 
-function OpenDrawer() {
-    const context = useContext(DrawerContext)
-    if (!context) {
-        throw new Error('DrawerTopbar must be used within a Drawer')
-    }
-    context.setIsOpen(true);
-}
-
-export { Drawer, DrawerContent, DrawerTopbar, OpenDrawer }
+export { Drawer, DrawerContent, DrawerTopbar}

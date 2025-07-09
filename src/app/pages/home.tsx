@@ -5,13 +5,12 @@ import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
 import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
 import { cn } from '@/app/styles/cn'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
-import { useState, type ReactNode } from 'react'
+import { useContext, useEffect, useState, type ReactNode } from 'react'
 import { HelpCircle } from 'react-feather'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {IFormInputsSchema} from '@/app/pages/services/atributes-validation'
-import { DrawerInformation } from '@/app/pages/iformation'
-import { HowToUseDrawer } from '@/app/pages/how-to-use'
+import { DrawerContext } from '@/app/contexts/Drawer-context'
 
 type IFormInputs = {
   section: number
@@ -59,11 +58,25 @@ export function Home() {
     }, 2000)
   }
 
+  const drawerContext = useContext(DrawerContext);
+
+  useEffect(() => {
+    if (drawerContext?.isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [drawerContext?.isOpen, drawerContext?.setIsOpen])
+
   return (
     <>
     <Navbar />
     <main className="mx-auto flex items-center justify-center h-full w-full max-w-5xl px-4 py-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-y-8 py-8 w-full">
+      <div className="flex flex-col gap-y-8 py-8 w-full" id='content'>
         <LayoutGroup>
           <motion.div
             animate={{ opacity: 1, y: 0 }}
@@ -200,8 +213,6 @@ export function Home() {
           </AnimatePresence>
         </LayoutGroup>
       </div>
-      {/* <DrawerInformation></DrawerInformation>
-      <HowToUseDrawer></HowToUseDrawer> */}
     </main>
     </>
   )

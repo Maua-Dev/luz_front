@@ -1,31 +1,29 @@
-import { createContext, useContext, useState, type Dispatch, type ReactNode, type SetStateAction } from "react"
+import { AnimatePresence, motion} from "motion/react"
+import { createContext, useState, type Dispatch, type ReactNode, type SetStateAction } from "react"
 
-interface DrawerContext {
+interface DrawerContextProps {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
-  toggleDrawer: () => void
+  component: ReactNode
+  setComponent: Dispatch<SetStateAction<ReactNode>>
 }
 
-const DrawerContext = createContext<DrawerContext | undefined>(undefined);
+const DrawerContext = createContext<DrawerContextProps | undefined>(undefined);
 
-const DrawerProvider = ({children}: {children : ReactNode}) =>{
+const DrawerContextProvider = ({children}: {children : ReactNode}) =>{
   const [isOpen, setIsOpen]= useState(false)
-  
-  const toggleDrawer = () =>{
-    setIsOpen(prev => !prev);
-  }
+  const [component, setComponent]= useState<ReactNode>(null)
 
-
-  return <DrawerContext.Provider value={{ isOpen, setIsOpen, toggleDrawer}}>{children}</DrawerContext.Provider>;
-};
-
-const useDrawer = (): DrawerContext => {
-  const context = useContext(DrawerContext)
-  
-  if (context === undefined) {
-    throw new Error('useDrawer must be used within a DrawerProvider')
-  }
-  
-  return context
+  return(
+    <DrawerContext.Provider value={{ isOpen, setIsOpen, component, setComponent}}>
+      <AnimatePresence>
+        <motion.div>
+          {component}
+        </motion.div>
+      </AnimatePresence>
+      {children}
+    </DrawerContext.Provider>
+  );
 }
-export{DrawerProvider, DrawerContext, useDrawer}
+
+export{DrawerContextProvider, DrawerContext}

@@ -1,9 +1,8 @@
-import { X } from "lucide-react";
 import { Drawer, DrawerContent, DrawerTopbar } from "@/app/components/drawer";
-import { useContext, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { DrawerContext, DrawerProvider, useDrawer } from "@/app/contexts/Drawer-context";
 import { EDLFormula, EDLFormula2, NFormula, PhiFormula, RCRFormula } from "@/app/components/formula";
+import { DrawerContext } from "@/app/contexts/Drawer-context";
+import { useContext } from "react";
 
 function Information() {
     return (
@@ -55,38 +54,17 @@ function Information() {
         </AnimatePresence>
     )
 }
-export function DrawerInformation() {
+export function InformationDrawer() {
+    const context = useContext(DrawerContext)
+    if (!context) {
+        throw new Error('InformationDrawer must be used within a DrawerContex')
+    }
     return (
-        <Drawer>
+        <Drawer isOpen={context.isOpen} setIsOpen={context.setIsOpen}>
             <DrawerContent>
                 <DrawerTopbar>Informações</DrawerTopbar>
                 <Information />
             </DrawerContent>
         </Drawer>
-    )
-}
-
-export function TesteTela() {
-    const context = useContext(DrawerContext)
-    if (!context) {
-        throw new Error("DrawerTopbar must be used within a Drawer")
-    }
-    return (
-        <>
-            <main className="h-screen w-full, bg-white">
-                <button onClick={() => {
-                    context.setIsOpen(true);
-                }} className="bg-black rounded-2xl h-1/5 w-1/3"></button>
-                <div>
-
-                </div>
-            </main>
-            <Drawer>
-                <DrawerContent>
-                    <DrawerTopbar>Informações</DrawerTopbar>
-                    <Information />
-                </DrawerContent>
-            </Drawer>
-        </>
     )
 }
