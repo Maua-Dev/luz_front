@@ -2,13 +2,17 @@ import Button from '@/app/components/Button'
 import Input from '@/app/components/Input'
 import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { IAverageIlluminanceSchema } from '@/app/pages/services/atributes-validation'
+import type z from 'zod'
 
-type IAverageIlluminance = {
-  b: number
-  height: number
-  reflectance: number
-  number_of_ducts: number
-}
+// type IAverageIlluminance = {
+//   b: number
+//   height: number
+//   reflectance: number
+//   number_of_ducts: number
+// }
+type IAverageIlluminance = z.infer<typeof IAverageIlluminanceSchema>;
 
 export function AverageIlluminance() {
   const [isLoading, setIsLoading] = useState(false)
@@ -18,7 +22,9 @@ export function AverageIlluminance() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<IAverageIlluminance>()
+  } = useForm<IAverageIlluminance>({
+    resolver: zodResolver(IAverageIlluminanceSchema)
+  })
   const onSubmit: SubmitHandler<IAverageIlluminance> = (data) =>
     console.log(data)
 

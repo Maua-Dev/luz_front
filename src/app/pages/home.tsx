@@ -11,12 +11,15 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {IFormInputsSchema} from '@/app/pages/services/atributes-validation'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
+import type z from 'zod'
 
-type IFormInputs = {
-  section: number
-  height: number
-  reflectance: number
-}
+// type IFormInputs = {
+//   section: number
+//   height: number
+//   reflectance: number
+// }
+
+type IFormInputs = z.infer<typeof IFormInputsSchema>;
 
 export function Home() {
   const [edlValue, setEdlValue] = useState<number | null>(null)

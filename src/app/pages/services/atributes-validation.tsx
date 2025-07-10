@@ -6,6 +6,7 @@ const IFormInputsSchema= z.object({
   reflectance: z.number().min(1,{message: "O ρ tem que ser maior que 0"})
 });
 
+// type IFormInputs = z.infer<typeof IFormInputsSchema>;
 
 const IAverageIlluminanceSchema= z.object({
   b: z.number().min(1, {message: "O b tem que ser maior que 0"}),

@@ -1,17 +1,22 @@
 import Button from '@/app/components/Button'
 import Input from '@/app/components/Input'
+import { INumberOfDuctsSchema } from '@/app/pages/services/atributes-validation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
+import type z from 'zod'
 
-type INumberOfDucts = {
-  edl: number
-  e: number
-  e_external: number
-  phi_duct: number
-  a: number
-  fd: number
-  cd: number
-}
+// type INumberOfDucts = {
+//   edl: number
+//   e: number
+//   e_external: number
+//   phi_duct: number
+//   a: number
+//   fd: number
+//   cd: number
+// }
+
+type INumberOfDucts = z.infer<typeof INumberOfDuctsSchema>;
 
 export function NumberOfDucts() {
   const [isLoading, setIsLoading] = useState(false)
@@ -21,7 +26,9 @@ export function NumberOfDucts() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<INumberOfDucts>()
+  } = useForm<INumberOfDucts>({
+    resolver: zodResolver(INumberOfDuctsSchema)
+  })
   const onSubmit: SubmitHandler<INumberOfDucts> = (data) => console.log(data)
 
   function handleSubmitData() {
