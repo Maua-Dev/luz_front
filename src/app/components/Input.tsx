@@ -4,6 +4,7 @@ import {
   TooltipTrigger
 } from '@/app/components/Tooltip'
 import type { IInput } from '@/app/interfaces/IInput'
+import { useEffect } from 'react';
 import { Info } from 'react-feather'
 
 function Input({
@@ -15,7 +16,7 @@ function Input({
   placeholder = '',
   className = '',
   error,
-  disabled = false,
+  disabled,
   id = ''
 }: IInput) {
   return (

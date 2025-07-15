@@ -6,12 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { IAverageIlluminanceSchema } from '@/app/pages/services/atributes-validation'
 import type z from 'zod'
 
-// type IAverageIlluminance = {
-//   b: number
-//   height: number
-//   reflectance: number
-//   number_of_ducts: number
-// }
 type IAverageIlluminance = z.infer<typeof IAverageIlluminanceSchema>;
 
 export function AverageIlluminance() {
@@ -40,46 +34,7 @@ export function AverageIlluminance() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <Input
-        label="b (Seção)"
-        tooltip="Valor da seção transversal do duto (m²)"
-        register={register}
-        error={errors.b?.message}
-        register_options={{
-          required: 'Campo obrigatório',
-          valueAsNumber: true
-        }}
-        type="number"
-        placeholder="Largura (m)"
-        id="inputWidth"
-      />
-      <Input
-        label="h (Altura)"
-        tooltip="Valor da altura do duto (m)"
-        register={register}
-        error={errors.height?.message}
-        register_options={{
-          required: 'Campo obrigatório',
-          valueAsNumber: true
-        }}
-        type="number"
-        placeholder="Altura (m)"
-        id="inputHeight"
-      />
-      <Input
-        label="ρ (Refletância)"
-        tooltip="Refletância interna ao duto"
-        register={register}
-        error={errors.reflectance?.message}
-        register_options={{
-          required: 'Campo obrigatório',
-          valueAsNumber: true
-        }}
-        type="number"
-        placeholder="z"
-        id="inputReflectance"
-      />
-      <Input
-        label="Número de dutos"
+        label="n (Número de dutos)"
         tooltip="Número de dutos no sistema"
         register={register}
         error={errors.number_of_ducts?.message}
@@ -94,6 +49,73 @@ export function AverageIlluminance() {
         type="number"
         placeholder="Número de dutos"
         id="inputNumberOfDucts"
+      />
+      <Input
+        label="E externo"
+        tooltip="Iluminância externa ao duto (Lux)"
+        register={register}
+        error={errors.e_external?.message}
+        register_options={{
+          required: 'Campo obrigatório',
+          valueAsNumber: true
+        }}
+        type="number"
+        placeholder="E externo (Lux)"
+        id="inputEExternal"
+      />
+      <Input
+        label="φ (Fator de reflexão do duto)"
+        tooltip="Fator de reflexão do duto"
+        register={register}
+        error={errors.phi_duct?.message}
+        register_options={{
+          required: 'Campo obrigatório',
+          valueAsNumber: true
+        }}
+        type="number"
+        // placeholder="φ"
+        disabled={true}
+        id="inputPhiDuct"
+      />
+      <Input
+        label="A (Área do duto)"
+        tooltip="Área do duto (m²)"
+        register={register}
+        error={errors.a?.message}
+        register_options={{
+          required: 'Campo obrigatório',
+          valueAsNumber: true
+        }}
+        type="number"
+        placeholder="A (m²)"
+        id="inputArea"
+      />
+      <Input
+        label="Fd (Fator de distribuição)"
+        tooltip="Fator de distribuição do duto"
+        register={register}
+        error={errors.fd?.message}
+        register_options={{
+          required: 'Campo obrigatório',
+          valueAsNumber: true
+        }}
+        type="number"
+        placeholder="Fd"
+        id="inputFd"
+      />
+      <Input
+        label="Cd (Coeficiente de dutos)"
+        tooltip="Coeficiente de dutos"
+        register={register}
+        error={errors.cd?.message}
+        register_options={{
+          required: 'Campo obrigatório',
+          valueAsNumber: true
+        }}
+        type="number"
+        // placeholder="Cd"
+        disabled= {true}
+        id="inputCd"
       />
       <div>
         <p className="text-lg">Resultado:</p>

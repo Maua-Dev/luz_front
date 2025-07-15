@@ -6,16 +6,6 @@ import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import type z from 'zod'
 
-// type INumberOfDucts = {
-//   edl: number
-//   e: number
-//   e_external: number
-//   phi_duct: number
-//   a: number
-//   fd: number
-//   cd: number
-// }
-
 type INumberOfDucts = z.infer<typeof INumberOfDuctsSchema>;
 
 export function NumberOfDucts() {
@@ -43,23 +33,10 @@ export function NumberOfDucts() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <Input
-        label="EDL"
-        tooltip="Valor do EDL calculado anteriormente"
-        register={register}
-        error={errors.edl?.message}
-        register_options={{
-          required: 'Campo obrigatório',
-          valueAsNumber: true
-        }}
-        type="number"
-        placeholder="EDL (Lux)"
-        id="inputEDL"
-      />
-      <Input
-        label="E"
+        label="E lux"
         tooltip="Iluminância média do ambiente (Lux)"
         register={register}
-        error={errors.e?.message}
+        error={errors.e_lux?.message}
         register_options={{
           required: 'Campo obrigatório',
           valueAsNumber: true
@@ -91,7 +68,8 @@ export function NumberOfDucts() {
           valueAsNumber: true
         }}
         type="number"
-        placeholder="φ"
+        // placeholder="φ"
+        disabled={true}
         id="inputPhiDuct"
       />
       <Input
@@ -130,7 +108,8 @@ export function NumberOfDucts() {
           valueAsNumber: true
         }}
         type="number"
-        placeholder="Cd"
+        // placeholder="Cd"
+        disabled= {true}
         id="inputCd"
       />
       <div>
