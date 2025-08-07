@@ -1,9 +1,9 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
 const IFormInputsSchema= z.object({
-  section: z.number().min(1,{message: "A largura tem que ser maior que 0"}).max(999, {message: "A largura tem que ser menor que 1000"}),
-  height: z.number().min(1,{message: "O comprimento tem que ser maior que 0"}).max(999, {message: "O comprimenteo tem que ser menor que 1000"}),
-  reflectance: z.number().min(1,{message: "O ρ tem que ser maior que 0"})
+  section: z.number().min(0,{message: "A largura tem que ser maior que 0"}).max(999, {message: "A largura tem que ser menor que 1000"}),
+  height: z.number().min(0,{message: "O comprimento tem que ser maior que 0"}).max(999, {message: "O comprimenteo tem que ser menor que 1000"}),
+  reflectance: z.number().min(0,{message: "O ρ tem que ser maior que 0"})
 });
 
 // type IFormInputs = z.infer<typeof IFormInputsSchema>;
@@ -30,4 +30,5 @@ const INumberOfDuctsSchema= z.object({
 
 // type INumberOfDuctsValidation = z.infer<typeof INumberOfDuctsSchema>;
 
-export {IFormInputsSchema, IAverageIlluminanceSchema, INumberOfDuctsSchema}
+export { IAverageIlluminanceSchema, IFormInputsSchema, INumberOfDuctsSchema };
+

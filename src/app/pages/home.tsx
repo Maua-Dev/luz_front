@@ -1,16 +1,17 @@
 import Button from '@/app/components/Button'
 import Input from '@/app/components/Input'
 import Navbar from '@/app/components/Navbar'
+import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
 import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
+import { IFormInputsSchema } from '@/app/pages/services/atributes-validation'
 import { cn } from '@/app/styles/cn'
+import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { useContext, useEffect, useState, type ReactNode } from 'react'
 import { HelpCircle } from 'react-feather'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import {IFormInputsSchema} from '@/app/pages/services/atributes-validation'
-import { DrawerContext } from '@/app/contexts/Drawer-context'
 import type z from 'zod'
 
 // type IFormInputs = {
@@ -49,16 +50,27 @@ export function Home() {
   } = useForm<IFormInputs>({
     resolver: zodResolver(IFormInputsSchema),
   })
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<IFormInputs> = (data) => handleSubmitData(data)
   
 
-  function handleSubmitData() {
+  async function handleSubmitData(data: IFormInputs) {
+    console.log('Submitting data:', data);
     setIsLoading(true)
-    // Mock a network request
-    setTimeout(() => {
-      setIsLoading(false)
-      setEdlValue(10)
-    }, 2000)
+
+    const params = new URLSearchParams({
+      b_section: String(data.section),
+      h_height: String(data.height),
+      p_reflectance: String(data.reflectance),
+    }).toString();
+
+    try {
+      const response = await axios.post(`https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-edl-value?${params}`);
+      setEdlValue(response.data.calculated_edl_value);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const drawerContext = useContext(DrawerContext);
@@ -107,7 +119,7 @@ export function Home() {
                   required: 'Campo obrigatório',
                   valueAsNumber: true
                 }}
-                type="number"
+                type="float"
                 placeholder="x (Metros)"
                 id="section"
               />
@@ -120,7 +132,7 @@ export function Home() {
                   required: 'Campo obrigatório',
                   valueAsNumber: true
                 }}
-                type="number"
+                type="float"
                 placeholder="h (Metros)"
                 id="height"
               />
@@ -133,7 +145,7 @@ export function Home() {
                   required: 'Campo obrigatório',
                   valueAsNumber: true
                 }}
-                type="number"
+                type="float"
                 placeholder="z"
                 id="reflectance"
               />
@@ -150,7 +162,6 @@ export function Home() {
                     disabled={isLoading}
                     loading={isLoading}
                     className="bg-accent-400 hover:bg-accent-500 text-text-50 cursor-pointer"
-                    onClick={() => handleSubmitData()}
                   >
                     Calcular
                   </Button>
