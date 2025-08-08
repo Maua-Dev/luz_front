@@ -129,7 +129,7 @@ export function Home() {
                 id="section"
               />
               <Input
-                label="h (Altura)"
+                label="c (Comprimento)"
                 tooltip="Comprimento do duto (m)"
                 register={register}
                 error={errors.height?.message}

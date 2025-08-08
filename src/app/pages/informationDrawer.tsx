@@ -1,7 +1,7 @@
 import { Drawer, DrawerContent, DrawerTopbar } from "@/app/components/drawer";
-import { AnimatePresence } from "framer-motion";
 import { EDLFormula, EDLFormula2, NFormula, PhiFormula, RCRFormula } from "@/app/components/formula";
 import { DrawerContext } from "@/app/contexts/Drawer-context";
+import { AnimatePresence } from "framer-motion";
 import { useContext } from "react";
 
 function Information() {
@@ -16,7 +16,7 @@ function Information() {
                     CD é o coeficiente de distribuição *; <br />
                     i - número de reflexões do plano iluminado no interior do duto; <br />
                     b - largura da seção do duto (m); <br />
-                    h - comprimento do duto (m); <br />
+                    c - comprimento do duto (m); <br />
                     ρ - refletância interna ao duto; <br />
                     n - número de reflexões do plano emissor, consideradas no somatório; <br />
                     RCR - coeficiente do recinto; <br />
