@@ -2,10 +2,9 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
-} from '@/app/components/Tooltip'
-import type { IInput } from '@/app/interfaces/IInput'
-import { useEffect } from 'react';
-import { Info } from 'react-feather'
+} from '@/app/components/Tooltip';
+import type { IInput } from '@/app/interfaces/IInput';
+import { Info } from 'react-feather';
 
 function Input({
   label,
@@ -15,6 +14,7 @@ function Input({
   type = 'text',
   placeholder = '',
   className = '',
+  defaultValue = '',
   error,
   disabled,
   id = ''
@@ -42,6 +42,7 @@ function Input({
         {...register(id, { ...register_options })}
         className="bg-background-50 text-text-950 border-background-200 focus:ring-accent-400 h-full w-64 border p-2 text-xl transition-all duration-300 focus:ring-2 focus:outline-none"
         placeholder={placeholder}
+        defaultValue={defaultValue}
       />
       {error && <span className="text-xs text-red-500">{error}</span>}
     </div>

@@ -113,6 +113,7 @@ export function AverageIlluminance({edlValue}: {edlValue: number | null}) {
           valueAsNumber: true
         }}
         type="number"
+        defaultValue={3}
         // placeholder="Cd"
         disabled= {true}
         id="inputCd"

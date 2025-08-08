@@ -11,4 +11,5 @@ export interface IInput {
   error?: string
   disabled?: boolean
   id?: string
+  defaultValue?: string | number
 }
