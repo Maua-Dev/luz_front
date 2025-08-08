@@ -2,33 +2,70 @@ import Button from '@/app/components/Button'
 import Input from '@/app/components/Input'
 import { INumberOfDuctsSchema } from '@/app/pages/services/atributes-validation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import type z from 'zod'
 
 type INumberOfDucts = z.infer<typeof INumberOfDuctsSchema>;
 
-export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
+export function NumberOfDucts() {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<number | null>(null)
 
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
+    getValues,
     formState: { errors }
   } = useForm<INumberOfDucts>({
     resolver: zodResolver(INumberOfDuctsSchema)
   })
-  const onSubmit: SubmitHandler<INumberOfDucts> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<INumberOfDucts> = (data) => handleSubmitData(data)
 
-  function handleSubmitData() {
+  async function handleSubmitData(data: INumberOfDucts) {
     setIsLoading(true)
-    // Mock a network request
-    setTimeout(() => {
-      setIsLoading(false)
-      setResult(10)
-    }, 2000)
+
+    const edlValue = localStorage.getItem('edlValue');
+    const bSection = localStorage.getItem('b_section');
+    
+    if (!edlValue || !bSection) {
+      console.error('EDL value or B section not found in localStorage');
+      setIsLoading(false);
+      return;
+    }
+
+    const params = new URLSearchParams({
+      edl_prcnt: edlValue!.toString(),
+      b_section: Number(bSection).toString(),
+      e_lux: data.e_lux.toString(),
+      e_external: data.e_external.toString(),
+      a_area: data.a.toString(),
+      fd_value: data.fd.toString(),
+    }).toString();
+
+    try {
+      const response = await axios.post(`https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-n-value?${params}`);
+      setResult(response.data.calculated_n_value);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
+  useEffect(() => {
+    const edlValue = Number(localStorage.getItem('edlValue'));
+    const bValue = Number(localStorage.getItem('b_section'));
+    const e_external = getValues('e_external');
+
+    const edllux = (edlValue * e_external) / 100;
+
+    setValue('phi_duct', (edllux) * (Number(Math.pow(bValue, 2).toFixed(2))));
+
+  }, [watch('e_external'), localStorage.getItem('edlValue'), localStorage.getItem('b_section')]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -41,9 +78,9 @@ export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         placeholder="E (Lux)"
-        id="inputE"
+        id="e_lux"
       />
       <Input
         label="E externo"
@@ -54,9 +91,9 @@ export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         placeholder="E externo (Lux)"
-        id="inputEExternal"
+        id="e_external"
       />
       <Input
         label="φ (Fator de reflexão do duto)"
@@ -67,10 +104,10 @@ export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         // placeholder="φ"
         disabled={true}
-        id="inputPhiDuct"
+        id="phi_duct"
       />
       <Input
         label="A (Área do duto)"
@@ -81,9 +118,9 @@ export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         placeholder="A (m²)"
-        id="inputArea"
+        id="a"
       />
       <Input
         label="Fd (Fator de distribuição)"
@@ -94,9 +131,9 @@ export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         placeholder="Fd"
-        id="inputFd"
+        id="fd"
       />
       <Input
         label="Cd (Coeficiente de dutos)"
@@ -107,11 +144,11 @@ export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         defaultValue={3}
         // placeholder="Cd"
         disabled= {true}
-        id="inputCd"
+        id="cd"
       />
       <div>
         <p className="text-lg">Resultado:</p>
@@ -126,7 +163,6 @@ export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
             disabled={isLoading}
             loading={isLoading}
             className="bg-accent-400 hover:bg-accent-500 text-text-50 cursor-pointer"
-            onClick={() => handleSubmitData()}
           >
             Calcular
           </Button>

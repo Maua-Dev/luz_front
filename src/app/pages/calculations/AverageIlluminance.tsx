@@ -8,7 +8,7 @@ import type z from 'zod'
 
 type IAverageIlluminance = z.infer<typeof IAverageIlluminanceSchema>;
 
-export function AverageIlluminance({edlValue}: {edlValue: number | null}) {
+export function AverageIlluminance() {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<number | null>(null)
 
@@ -131,7 +131,6 @@ export function AverageIlluminance({edlValue}: {edlValue: number | null}) {
             disabled={isLoading}
             loading={isLoading}
             className="bg-accent-400 hover:bg-accent-500 text-text-50 cursor-pointer"
-            onClick={() => handleSubmitData()}
           >
             Calcular
           </Button>

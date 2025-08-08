@@ -20,12 +20,12 @@ const IAverageIlluminanceSchema= z.object({
 // type IAverageIlluminanceValidation = z.infer<typeof IAverageIlluminanceSchema>;
 
 const INumberOfDuctsSchema= z.object({
-  e_lux: z.number().min(1, {message: "O E lux tem que ser maior que 0"}),
-  e_external: z.number().min(1, {message: "O E Externo tem que ser maior que 0"}),
-  phi_duct: z.number().min(1, {message: "O φ tem que ser maior que 0"}),
-  a: z.number().min(1, {message: "O A tem que ser maior que 0"}),
-  fd: z.number().min(1, {message: "O Fd tem que ser maior que 0"}),
-  cd: z.number().min(1, {message: "O Cd tem que ser maior que 0"})
+  e_lux: z.number().min(0, {message: "O E lux tem que ser maior que 0"}),
+  e_external: z.number().min(0, {message: "O E Externo tem que ser maior que 0"}),
+  phi_duct: z.number().min(0, {message: "O φ tem que ser maior que 0"}),
+  a: z.number().min(0, {message: "O A tem que ser maior que 0"}),
+  fd: z.number().min(0, {message: "O Fd tem que ser maior que 0"}),
+  cd: z.number().min(0, {message: "O Cd tem que ser maior que 0"})
 });
 
 // type INumberOfDuctsValidation = z.infer<typeof INumberOfDuctsSchema>;

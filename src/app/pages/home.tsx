@@ -35,11 +35,11 @@ export function Home() {
   > = {
     numberOfDucts: {
       title: 'Número de Dutos',
-      component: <NumberOfDucts edlValue={edlValue} />
+      component: <NumberOfDucts />
     },
     averageIlluminance: {
       title: 'Iluminância Média',
-      component: <AverageIlluminance edlValue={edlValue} />
+      component: <AverageIlluminance />
     }
   }
 
@@ -66,6 +66,11 @@ export function Home() {
     try {
       const response = await axios.post(`https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-edl-value?${params}`);
       setEdlValue(response.data.calculated_edl_value);
+
+      // Save edlValue to localStorage
+      localStorage.setItem('edlValue', response.data.calculated_edl_value);
+      // Save b_section to localStorage
+      localStorage.setItem('b_section', String(data.section));
     } catch (error) {
       console.error(error);
     } finally {
