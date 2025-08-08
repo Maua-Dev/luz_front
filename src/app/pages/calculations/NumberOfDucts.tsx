@@ -1,4 +1,4 @@
-import Button from '@/app/components/Button'
+import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
 import { INumberOfDuctsSchema } from '@/app/pages/services/atributes-validation'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -152,8 +152,8 @@ export function NumberOfDucts() {
       />
       <div>
         <p className="text-lg">Resultado:</p>
-        <div className="flex flex-row items-center justify-between gap-x-4">
-          <div className="border-accent-400 w-64 max-w-64 border-2 p-4">
+        <div className="flex flex-col sm:flex-row items-start gap-y-8 sm:items-center justify-between gap-x-4">
+          <div className="border-accent-500 w-full sm:w-64 sm:max-w-64 border-2 p-4">
             <p className="text-text-950 text-lg font-semibold">
               {result !== null ? result : '0.00'}
             </p>

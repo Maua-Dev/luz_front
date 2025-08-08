@@ -1,6 +1,6 @@
-import Button from '@/app/components/Button'
+import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
-import Navbar from '@/app/components/Navbar'
+import Navbar from '@/app/components/navbar'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
 import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
@@ -156,8 +156,8 @@ export function Home() {
               />
               <div>
                 <p className="text-lg">Resultado:</p>
-                <div className="flex flex-row items-center justify-between gap-x-4">
-                  <div className="border-accent-400 w-64 max-w-64 border-2 p-4">
+                <div className="flex flex-col sm:flex-row items-start gap-y-8 sm:items-center justify-between gap-x-4">
+                  <div className="border-accent-500 w-full sm:w-64 sm:max-w-64 border-2 p-4">
                     <p className="text-text-950 text-lg font-semibold">
                       EDL = {edlValue !== null ? edlValue : '0.00'}
                     </p>
@@ -187,13 +187,13 @@ export function Home() {
                   <p className="text-text-950 text-lg">
                     2. Selecione o que deseja calcular
                   </p>
-                  <div className="flex w-full max-w-[642px] flex-row items-center justify-between">
+                  <div className="flex w-full sm:max-w-[642px] flex-row items-center justify-between gap-x-2">
                     <button
                       onClick={() => {
                         setSelectedCalculation('numberOfDucts')
                       }}
                       className={cn(
-                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 min-w-48 transition-colors duration-300',
+                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 w-full sm:min-w-48 transition-colors duration-300',
                         selectedCalculation === 'numberOfDucts' &&
                           'bg-accent-500 text-text-50'
                       )}
@@ -205,7 +205,7 @@ export function Home() {
                         setSelectedCalculation('averageIlluminance')
                       }}
                       className={cn(
-                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 min-w-48 transition-colors duration-300',
+                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 w-full sm:min-w-48 transition-colors duration-300',
                         selectedCalculation === 'averageIlluminance' &&
                           'bg-accent-500 text-text-50'
                       )}

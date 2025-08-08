@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom"
-import { useContext } from "react";
-import { DrawerContext, DrawerContextProvider } from "@/app/contexts/Drawer-context";
-import { InformationDrawer } from "@/app/pages/informationDrawer";
+import { DrawerContext } from "@/app/contexts/Drawer-context";
 import { HowToUseDrawer } from "@/app/pages/howToUseDrawer";
+import { InformationDrawer } from "@/app/pages/informationDrawer";
 import { TableDrawer } from "@/app/pages/tableDrawer";
+import { Menu } from "lucide-react";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   /* TODO: 
@@ -14,9 +15,9 @@ function Navbar() {
   const drawerContext = useContext(DrawerContext)
 
   return (
-    <nav className="bg-background-900 flex h-20 w-full flex-row items-center gap-x-8 px-8 sticky top-0 z-50">
+    <nav className="bg-background-900 flex h-20 w-full flex-row items-center justify-between sm:justify-start gap-x-8 px-8 sticky top-0 z-50">
       <img src="icon.svg" alt="Logo" className="h-10" />
-      <ul className="flex flex-row items-center justify-start gap-x-8 text-base">
+      <ul className="hidden sm:flex flex-row items-center justify-start gap-x-8 text-base">
         <li className="text-text-50 hover:text-accent-400 cursor-pointer transition-colors duration-300">
           <div onClick={() => {
             drawerContext?.setIsOpen(true);
@@ -39,6 +40,7 @@ function Navbar() {
           <Link to={``}>Saiba mais</Link>
         </li>
       </ul>
+      <Menu className="text-white cursor-pointer sm:hidden"/>
     </nav>
   )
 }
