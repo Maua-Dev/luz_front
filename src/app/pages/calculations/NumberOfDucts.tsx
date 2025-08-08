@@ -8,7 +8,7 @@ import type z from 'zod'
 
 type INumberOfDucts = z.infer<typeof INumberOfDuctsSchema>;
 
-export function NumberOfDucts() {
+export function NumberOfDucts({edlValue}: {edlValue: number | null}) {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<number | null>(null)
 

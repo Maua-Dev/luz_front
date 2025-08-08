@@ -35,11 +35,11 @@ export function Home() {
   > = {
     numberOfDucts: {
       title: 'Número de Dutos',
-      component: <NumberOfDucts />
+      component: <NumberOfDucts edlValue={edlValue} />
     },
     averageIlluminance: {
       title: 'Iluminância Média',
-      component: <AverageIlluminance />
+      component: <AverageIlluminance edlValue={edlValue} />
     }
   }
 
@@ -182,15 +182,15 @@ export function Home() {
                   <p className="text-text-950 text-lg">
                     2. Selecione o que deseja calcular
                   </p>
-                  <div className="flex w-full flex-row items-center justify-evenly">
+                  <div className="flex w-full max-w-[642px] flex-row items-center justify-between">
                     <button
                       onClick={() => {
                         setSelectedCalculation('numberOfDucts')
                       }}
                       className={cn(
-                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 transition-colors duration-300',
+                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 min-w-48 transition-colors duration-300',
                         selectedCalculation === 'numberOfDucts' &&
-                          'bg-accent-400 text-text-50'
+                          'bg-accent-500 text-text-50'
                       )}
                     >
                       Nº de dutos
@@ -200,9 +200,9 @@ export function Home() {
                         setSelectedCalculation('averageIlluminance')
                       }}
                       className={cn(
-                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 transition-colors duration-300',
+                        'text-text-50 hover:bg-background-700 bg-background-800 cursor-pointer rounded-sm p-4 px-6 min-w-48 transition-colors duration-300',
                         selectedCalculation === 'averageIlluminance' &&
-                          'bg-accent-400 text-text-50'
+                          'bg-accent-500 text-text-50'
                       )}
                     >
                       Iluminância média

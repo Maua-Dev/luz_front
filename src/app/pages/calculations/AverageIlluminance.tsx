@@ -1,14 +1,14 @@
 import Button from '@/app/components/Button'
 import Input from '@/app/components/Input'
+import { IAverageIlluminanceSchema } from '@/app/pages/services/atributes-validation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { IAverageIlluminanceSchema } from '@/app/pages/services/atributes-validation'
 import type z from 'zod'
 
 type IAverageIlluminance = z.infer<typeof IAverageIlluminanceSchema>;
 
-export function AverageIlluminance() {
+export function AverageIlluminance({edlValue}: {edlValue: number | null}) {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<number | null>(null)
 
