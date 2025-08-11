@@ -39,7 +39,7 @@ export function Home() {
     },
     averageIlluminance: {
       title: 'Iluminância Média',
-      component: <AverageIlluminance edlValue={edlValue} />
+      component: <AverageIlluminance/>
     }
   }
 
@@ -51,8 +51,7 @@ export function Home() {
     resolver: zodResolver(IFormInputsSchema),
   })
   const onSubmit: SubmitHandler<IFormInputs> = (data) => handleSubmitData(data)
-  
-
+ 
   async function handleSubmitData(data: IFormInputs) {
     console.log('Submitting data:', data);
     setIsLoading(true)
@@ -66,6 +65,10 @@ export function Home() {
     try {
       const response = await axios.post(`https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-edl-value?${params}`);
       setEdlValue(response.data.calculated_edl_value);
+
+      localStorage.setItem('edl_value', response.data.calculated_edl_value)
+
+      localStorage.setItem('b_section', String(data.section))
     } catch (error) {
       console.error(error);
     } finally {
@@ -107,7 +110,7 @@ export function Home() {
               />
             </div>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleSubmitData)}
               className="flex flex-col gap-4"
             >
               <Input
