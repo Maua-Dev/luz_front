@@ -111,7 +111,7 @@ export function Home() {
               />
             </div>
             <form
-          onSubmit={handleSubmit(handleSubmitData)}
+              onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-4"
             >
               <Input

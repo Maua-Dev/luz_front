@@ -1,8 +1,7 @@
-import { X } from 'lucide-react';
 import { Drawer, DrawerContent, DrawerTopbar } from '@/app/components/drawer';
-import { useContext, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { DrawerContext } from '@/app/contexts/Drawer-context';
+import { AnimatePresence } from 'framer-motion';
+import { useContext } from 'react';
 
 function Explanation() {
     return (

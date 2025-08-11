@@ -1,7 +1,5 @@
 import 'katex/dist/katex.min.css';
-import { renderToString } from 'katex';
-import {BlockMath} from 'react-katex';
-import {InlineMath} from 'react-katex';
+import { BlockMath } from 'react-katex';
 
 
 function EDLFormula(){
@@ -42,4 +40,4 @@ function RCRFormula(){
 }
 
 
-export{EDLFormula2, EDLFormula, PhiFormula, NFormula, RCRFormula}
+export { EDLFormula, EDLFormula2, NFormula, PhiFormula, RCRFormula };

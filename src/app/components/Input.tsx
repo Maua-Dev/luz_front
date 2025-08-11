@@ -35,16 +35,18 @@ function Input({
           </TooltipContent>
         </TooltipProvider>
       </div>
-      <input
-        type={type}
-        id={id}
-        disabled={disabled}
-        {...register(id, { ...register_options })}
-        className={`bg-background-50 text-text-950 border-background-200 focus:ring-accent-400 h-16 sm:h-full w-full sm:w-64 border p-2 text-xl transition-all duration-300 focus:ring-2 focus:outline-none ${error ? 'border-red-500' : ''} ${className}`}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-      />
-      {error && <span className="text-xs text-red-500">{error}</span>}
+      <div className='flex flex-col h-full w-full sm:w-auto'>
+        <input
+          type={type}
+          id={id}
+          disabled={disabled}
+          {...register(id, { ...register_options })}
+          className={`bg-background-50 text-text-950 border-background-200 focus:ring-accent-400 h-16 sm:h-full w-full sm:w-64 border p-2 text-xl transition-all duration-300 focus:ring-2 focus:outline-none ${error ? 'border-red-500' : ''} ${className}`}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+        />
+        {error && <span className="text-xs text-red-500">{error}</span>}
+      </div>
     </div>
   )
 }
