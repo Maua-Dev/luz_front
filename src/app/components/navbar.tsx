@@ -51,8 +51,12 @@ function NavbarLinks() {
 
         <li className="md:text-text-50 hover:text-accent-400 cursor-pointer text-2xl transition-colors duration-300 md:text-base">
           <Link to={``}>Saiba mais</Link>
+
         </li>
+
       </ul>
+
+
     </div>
   )
 }
