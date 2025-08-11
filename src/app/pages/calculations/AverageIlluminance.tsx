@@ -1,4 +1,4 @@
-import Button from '@/app/components/Button'
+import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
 import { IAverageIlluminanceSchema } from '@/app/pages/services/atributes-validation'
 import { zodResolver } from '@hookform/resolvers/zod'

@@ -3,17 +3,21 @@ import { useContext, useEffect, useState, type RefObject } from "react";
 import { DrawerContext, DrawerContextProvider } from "@/app/contexts/Drawer-context";
 import { InformationDrawer } from "@/app/pages/informationDrawer";
 import { HowToUseDrawer } from "@/app/pages/howToUseDrawer";
+import { InformationDrawer } from "@/app/pages/informationDrawer";
 import { TableDrawer } from "@/app/pages/tableDrawer";
-import { FaBars } from "react-icons/fa6";
+import { Menu } from "lucide-react";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Drawer, DrawerContent } from "@/app/components/drawer";
 
 function NavbarLinks(){
   const drawerContext = useContext(DrawerContext)
 
-  return(
-    <div className="md:static md:min-h-fit top-[-100%] min-h-[60vh]">
-      <ul className="h-full justify-evenly flex flex-col md:flex-row items-center gap-x-8 text-base">
-        <li className="md:text-text-50 hover:text-accent-400 cursor-pointer transition-colors duration-300 text-2xl md:text-base">
+  return (
+    <nav className="bg-background-900 flex h-20 w-full flex-row items-center justify-between sm:justify-start gap-x-8 px-8 sticky top-0 z-50">
+      <img src="icon.svg" alt="Logo" className="h-10" />
+      <ul className="hidden sm:flex flex-row items-center justify-start gap-x-8 text-base">
+        <li className="text-text-50 hover:text-accent-400 cursor-pointer transition-colors duration-300">
           <div onClick={() => {
             drawerContext?.setIsOpen(true);
             drawerContext?.setComponent(<HowToUseDrawer />)
@@ -69,7 +73,7 @@ function Navbar() {
         drawerContext?.setIsOpen(true)
         drawerContext?.setComponent(<NavbarDrawer/>)
       }}>
-        <FaBars />
+        <Menu />
       </button>
     </nav>
   )
