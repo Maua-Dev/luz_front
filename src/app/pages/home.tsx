@@ -51,8 +51,7 @@ export function Home() {
     resolver: zodResolver(IFormInputsSchema),
   })
   const onSubmit: SubmitHandler<IFormInputs> = (data) => handleSubmitData(data)
-  
-
+ 
   async function handleSubmitData(data: IFormInputs) {
     console.log('Submitting data:', data);
     setIsLoading(true)
@@ -112,7 +111,7 @@ export function Home() {
               />
             </div>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleSubmitData)}
               className="flex flex-col gap-4"
             >
               <Input

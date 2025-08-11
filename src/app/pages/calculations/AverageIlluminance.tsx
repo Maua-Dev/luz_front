@@ -2,7 +2,8 @@ import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
 import { IAverageIlluminanceSchema } from '@/app/pages/services/atributes-validation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import axios from 'axios'
+import {useEffect, useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import type z from 'zod'
 
@@ -15,21 +16,61 @@ export function AverageIlluminance() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    trigger,
     formState: { errors }
   } = useForm<IAverageIlluminance>({
     resolver: zodResolver(IAverageIlluminanceSchema)
   })
-  const onSubmit: SubmitHandler<IAverageIlluminance> = (data) =>
-    console.log(data)
+  const onSubmit: SubmitHandler<IAverageIlluminance> = (data) => handleSubmitData(data)
 
-  function handleSubmitData() {
+  async function handleSubmitData(data: IAverageIlluminance) {
     setIsLoading(true)
-    // Mock a network request
-    setTimeout(() => {
-      setIsLoading(false)
-      setResult(10)
-    }, 2000)
+    
+    const edlValue = localStorage.getItem('edl_value');
+    const bSection = localStorage.getItem('b_section');
+
+    if(!edlValue || !bSection){
+      console.error('EDL value or B section not found in local storage');
+      setIsLoading(false);
+      return
+    }
+
+    const param = new URLSearchParams({
+      n_value: data.number_of_ducts.toString(),
+      edl_prcnt: edlValue!.toString(),
+      b_section: Number(bSection).toString(),
+      e_external: data.e_external.toString(),
+      a_area: data.a.toString(),
+      fd_value: data.fd.toString()
+    }).toString()
+    
+    try{
+      const response= await axios.post(`https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-e-value?${param}`);
+      setResult(response.data.calculated_e_value);
+    }
+    catch (error){
+      console.error(error);
+    }
+    finally{
+      setIsLoading(false);
+    }
   }
+
+  useEffect(() =>{
+    const edlValue = Number(localStorage.getItem('edl_value'));
+    const bSection = Number(localStorage.getItem('b_section'));
+    const eExternal = getValues('e_external')
+
+    const edlLux = (edlValue * eExternal) / 100
+
+    setValue('phi_duct', (edlLux) * (Number((Math.pow(bSection, 2)).toFixed(2))))
+    if(eExternal){
+      trigger('phi_duct')
+    }
+    }, [watch('e_external'), localStorage.getItem('edlValue'), localStorage.getItem('bSection')]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -46,9 +87,9 @@ export function AverageIlluminance() {
             message: 'Valor mínimo é 1'
           }
         }}
-        type="number"
+        type="float"
         placeholder="Número de dutos"
-        id="inputNumberOfDucts"
+        id="number_of_ducts"
       />
       <Input
         label="E externo"
@@ -59,9 +100,9 @@ export function AverageIlluminance() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         placeholder="E externo (Lux)"
-        id="inputEExternal"
+        id="e_external"
       />
       <Input
         label="φ (Fator de reflexão do duto)"
@@ -72,10 +113,10 @@ export function AverageIlluminance() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         // placeholder="φ"
         disabled={true}
-        id="inputPhiDuct"
+        id="phi_duct"
       />
       <Input
         label="A (Área do duto)"
@@ -86,9 +127,9 @@ export function AverageIlluminance() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         placeholder="A (m²)"
-        id="inputArea"
+        id="a"
       />
       <Input
         label="Fd (Fator de distribuição)"
@@ -99,9 +140,9 @@ export function AverageIlluminance() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         placeholder="Fd"
-        id="inputFd"
+        id="fd"
       />
       <Input
         label="Cd (Coeficiente de dutos)"
@@ -112,11 +153,11 @@ export function AverageIlluminance() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="number"
+        type="float"
         defaultValue={3}
         // placeholder="Cd"
         disabled= {true}
-        id="inputCd"
+        id="cd"
       />
       <div>
         <p className="text-lg">Resultado:</p>

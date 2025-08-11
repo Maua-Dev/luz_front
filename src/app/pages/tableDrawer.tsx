@@ -7,7 +7,7 @@ function Table(){
     return(
         <AnimatePresence>
             <main className="px-10 py-5">
-                <div className="flex w-100 h-150 border-1 border-black/30 items-center justify-center">
+                <div className="flex w-87 md:w-100  h-150 border-1 border-black/30 items-center justify-center">
                     <div className="text-black/30">(Em desenvolvimento)</div>
                 </div>
             </main>
