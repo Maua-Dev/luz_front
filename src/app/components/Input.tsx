@@ -2,9 +2,9 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
-} from '@/app/components/Tooltip';
-import type { IInput } from '@/app/interfaces/IInput';
-import { Info } from 'react-feather';
+} from '@/app/components/Tooltip'
+import type { IInput } from '@/app/interfaces/IInput'
+import { Info } from 'react-feather'
 
 function Input({
   label,
@@ -20,7 +20,7 @@ function Input({
   id = ''
 }: IInput) {
   return (
-    <div className="flex h-fit sm:h-16 flex-col sm:flex-row items-center justify-between gap-x-8 gap-y-8">
+    <div className="flex h-fit flex-col items-center justify-between gap-x-8 gap-y-8 sm:h-16 sm:flex-row">
       <div className="bg-background-900 flex h-full w-full flex-row items-center justify-between p-4">
         <p className="text-text-50 text-xl">{label}</p>
         <TooltipProvider>
@@ -35,16 +35,18 @@ function Input({
           </TooltipContent>
         </TooltipProvider>
       </div>
-      <input
-        type={type}
-        id={id}
-        disabled={disabled}
-        {...register(id, { ...register_options })}
-        className={`bg-background-50 text-text-950 border-background-200 focus:ring-accent-400 h-16 sm:h-full w-full sm:w-64 border p-2 text-xl transition-all duration-300 focus:ring-2 focus:outline-none ${error ? 'border-red-500' : ''} ${className}`}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-      />
-      {error && <span className="text-xs text-red-500">{error}</span>}
+      <div className="flex h-full w-full flex-col sm:w-auto">
+        <input
+          type={type}
+          id={id}
+          disabled={disabled}
+          {...register(id, { ...register_options })}
+          className={`bg-background-50 text-text-950 border-background-200 focus:ring-accent-400 h-16 w-full border p-2 text-xl transition-all duration-300 focus:ring-2 focus:outline-none sm:h-full sm:w-64 ${error ? 'border-red-500' : ''} ${className}`}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+        />
+        {error && <span className="text-xs text-red-500">{error}</span>}
+      </div>
     </div>
   )
 }

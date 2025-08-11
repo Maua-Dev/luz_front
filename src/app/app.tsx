@@ -7,7 +7,14 @@ export function App() {
     <Router>
       {/* <Navbar /> */}
       <Routes>
-        <Route path="/" element={<DrawerContextProvider><Home /></DrawerContextProvider>} />
+        <Route
+          path="/"
+          element={
+            <DrawerContextProvider>
+              <Home />
+            </DrawerContextProvider>
+          }
+        />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </Router>

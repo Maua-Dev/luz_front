@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import type z from 'zod'
 
-type INumberOfDucts = z.infer<typeof INumberOfDuctsSchema>;
+type INumberOfDucts = z.infer<typeof INumberOfDuctsSchema>
 
 export function NumberOfDucts() {
   const [isLoading, setIsLoading] = useState(false)
@@ -23,18 +23,19 @@ export function NumberOfDucts() {
   } = useForm<INumberOfDucts>({
     resolver: zodResolver(INumberOfDuctsSchema)
   })
-  const onSubmit: SubmitHandler<INumberOfDucts> = (data) => handleSubmitData(data)
+  const onSubmit: SubmitHandler<INumberOfDucts> = (data) =>
+    handleSubmitData(data)
 
   async function handleSubmitData(data: INumberOfDucts) {
     setIsLoading(true)
 
-    const edlValue = localStorage.getItem('edlValue');
-    const bSection = localStorage.getItem('b_section');
-    
+    const edlValue = localStorage.getItem('edlValue')
+    const bSection = localStorage.getItem('b_section')
+
     if (!edlValue || !bSection) {
-      console.error('EDL value or B section not found in localStorage');
-      setIsLoading(false);
-      return;
+      console.error('EDL value or B section not found in localStorage')
+      setIsLoading(false)
+      return
     }
 
     const params = new URLSearchParams({
@@ -43,29 +44,34 @@ export function NumberOfDucts() {
       e_lux: data.e_lux.toString(),
       e_external: data.e_external.toString(),
       a_area: data.a.toString(),
-      fd_value: data.fd.toString(),
-    }).toString();
+      fd_value: data.fd.toString()
+    }).toString()
 
     try {
-      const response = await axios.post(`https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-n-value?${params}`);
-      setResult(response.data.calculated_n_value);
+      const response = await axios.post(
+        `https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-n-value?${params}`
+      )
+      setResult(response.data.calculated_n_value)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
   useEffect(() => {
-    const edlValue = Number(localStorage.getItem('edlValue'));
-    const bValue = Number(localStorage.getItem('b_section'));
-    const e_external = getValues('e_external');
+    const edlValue = Number(localStorage.getItem('edlValue'))
+    const bValue = Number(localStorage.getItem('b_section'))
+    const e_external = getValues('e_external')
 
-    const edllux = (edlValue * e_external) / 100;
+    const edllux = (edlValue * e_external) / 100
 
-    setValue('phi_duct', (edllux) * (Number(Math.pow(bValue, 2).toFixed(2))));
-
-  }, [watch('e_external'), localStorage.getItem('edlValue'), localStorage.getItem('b_section')]);
+    setValue('phi_duct', edllux * Number(Math.pow(bValue, 2).toFixed(2)))
+  }, [
+    watch('e_external'),
+    localStorage.getItem('edlValue'),
+    localStorage.getItem('b_section')
+  ])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -147,13 +153,13 @@ export function NumberOfDucts() {
         type="float"
         defaultValue={3}
         // placeholder="Cd"
-        disabled= {true}
+        disabled={true}
         id="cd"
       />
       <div>
         <p className="text-lg">Resultado:</p>
-        <div className="flex flex-col sm:flex-row items-start gap-y-8 sm:items-center justify-between gap-x-4">
-          <div className="border-accent-500 w-full sm:w-64 sm:max-w-64 border-2 p-4">
+        <div className="flex flex-col items-start justify-between gap-x-4 gap-y-8 sm:flex-row sm:items-center">
+          <div className="border-accent-500 w-full border-2 p-4 sm:w-64 sm:max-w-64">
             <p className="text-text-950 text-lg font-semibold">
               {result !== null ? result : '0.00'}
             </p>

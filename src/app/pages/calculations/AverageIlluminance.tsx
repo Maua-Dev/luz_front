@@ -3,11 +3,11 @@ import Input from '@/app/components/Input'
 import { IAverageIlluminanceSchema } from '@/app/pages/services/atributes-validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import {useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import type z from 'zod'
 
-type IAverageIlluminance = z.infer<typeof IAverageIlluminanceSchema>;
+type IAverageIlluminance = z.infer<typeof IAverageIlluminanceSchema>
 
 export function AverageIlluminance() {
   const [isLoading, setIsLoading] = useState(false)
@@ -24,17 +24,18 @@ export function AverageIlluminance() {
   } = useForm<IAverageIlluminance>({
     resolver: zodResolver(IAverageIlluminanceSchema)
   })
-  const onSubmit: SubmitHandler<IAverageIlluminance> = (data) => handleSubmitData(data)
+  const onSubmit: SubmitHandler<IAverageIlluminance> = (data) =>
+    handleSubmitData(data)
 
   async function handleSubmitData(data: IAverageIlluminance) {
     setIsLoading(true)
-    
-    const edlValue = localStorage.getItem('edl_value');
-    const bSection = localStorage.getItem('b_section');
 
-    if(!edlValue || !bSection){
-      console.error('EDL value or B section not found in local storage');
-      setIsLoading(false);
+    const edlValue = localStorage.getItem('edl_value')
+    const bSection = localStorage.getItem('b_section')
+
+    if (!edlValue || !bSection) {
+      console.error('EDL value or B section not found in local storage')
+      setIsLoading(false)
       return
     }
 
@@ -46,31 +47,35 @@ export function AverageIlluminance() {
       a_area: data.a.toString(),
       fd_value: data.fd.toString()
     }).toString()
-    
-    try{
-      const response= await axios.post(`https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-e-value?${param}`);
-      setResult(response.data.calculated_e_value);
-    }
-    catch (error){
-      console.error(error);
-    }
-    finally{
-      setIsLoading(false);
+
+    try {
+      const response = await axios.post(
+        `https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-e-value?${param}`
+      )
+      setResult(response.data.calculated_e_value)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  useEffect(() =>{
-    const edlValue = Number(localStorage.getItem('edl_value'));
-    const bSection = Number(localStorage.getItem('b_section'));
+  useEffect(() => {
+    const edlValue = Number(localStorage.getItem('edl_value'))
+    const bSection = Number(localStorage.getItem('b_section'))
     const eExternal = getValues('e_external')
 
     const edlLux = (edlValue * eExternal) / 100
 
-    setValue('phi_duct', (edlLux) * (Number((Math.pow(bSection, 2)).toFixed(2))))
-    if(eExternal){
+    setValue('phi_duct', edlLux * Number(Math.pow(bSection, 2).toFixed(2)))
+    if (eExternal) {
       trigger('phi_duct')
     }
-    }, [watch('e_external'), localStorage.getItem('edlValue'), localStorage.getItem('bSection')]);
+  }, [
+    watch('e_external'),
+    localStorage.getItem('edlValue'),
+    localStorage.getItem('bSection')
+  ])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -156,7 +161,7 @@ export function AverageIlluminance() {
         type="float"
         defaultValue={3}
         // placeholder="Cd"
-        disabled= {true}
+        disabled={true}
         id="cd"
       />
       <div>
