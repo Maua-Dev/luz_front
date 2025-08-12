@@ -55,7 +55,7 @@ jobs:
           else
             echo "Invalid branch name!" && exit 1
           fi
-          echo "STACK_NAME=ReservationStackFront${{env.STAGE}}" >> $GITHUB_ENV
+          echo "STACK_NAME=LuzStackFront${{env.STAGE}}" >> $GITHUB_ENV
       - name: Installing Dependencies
         run: |
           npm install
@@ -81,12 +81,12 @@ jobs:
           cdk deploy --require-approval never
       - name: Set CloudFront ID
         run: |
-          CLOUD_FRONT_ID=$(aws cloudformation --region ${{env.AWS_REGION}} describe-stacks --stack-name ${{env.STACK_NAME}} --query "Stacks[0].Outputs[?OutputKey=='ReservationFrontDistributionId${{env.STAGE}}'].OutputValue" --output text)
+          CLOUD_FRONT_ID=$(aws cloudformation --region ${{env.AWS_REGION}} describe-stacks --stack-name ${{env.STACK_NAME}} --query "Stacks[0].Outputs[?OutputKey=='LuzFrontDistributionId${{env.STAGE}}'].OutputValue" --output text)
           echo "CLOUD_FRONT_ID='$CLOUD_FRONT_ID'" >> $GITHUB_ENV
       - name: Set AWS Bucket
         run: |
           echo "Setting AWS Bucket"
-          AWS_BUCKET=$(aws cloudformation --region ${{env.AWS_REGION}} describe-stacks --stack-name ${{env.STACK_NAME}} --query "Stacks[0].Outputs[?OutputKey=='ReservationFrontBucketName${{env.STAGE}}'].OutputValue" --output text)
+          AWS_BUCKET=$(aws cloudformation --region ${{env.AWS_REGION}} describe-stacks --stack-name ${{env.STACK_NAME}} --query "Stacks[0].Outputs[?OutputKey=='LuzFrontBucketName${{env.STAGE}}'].OutputValue" --output text)
           echo "AWS_BUCKET='$AWS_BUCKET'" >> $GITHUB_ENV
       - name: Check if bucket exists
         run: |
