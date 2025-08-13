@@ -73,6 +73,10 @@ jobs:
           echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
           echo GITHUB_REF_NAME=${{ env.STAGE }} >> $GITHUB_ENV
           echo ACM_CERTIFICATE_ARN=${{ secrets.DEVMAUA_ACM_CERTIFICATE_ARN }} >> $GITHUB_ENV
+      - name: Configure bootstrap
+        run: |
+          echo "Configuring bootstrap"
+          cdk bootstrap aws://${{ env.AWS_ACCOUNT_ID }}/${{ vars.AWS_REGION }}
       - name: Deploy with CDK
         run: |
           cd iac
