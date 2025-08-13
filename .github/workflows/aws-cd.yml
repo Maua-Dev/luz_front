@@ -36,6 +36,8 @@ jobs:
       - name: Setup AWS Credentials
         id: aws-credentials
         uses: aws-actions/configure-aws-credentials@v2
+        env:
+          AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE: 1
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/GithubActionsRole
