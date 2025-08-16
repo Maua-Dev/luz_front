@@ -4,6 +4,7 @@ import Navbar from '@/app/components/navbar'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
 import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
+import { InformationDrawer } from '@/app/pages/drawer_pages/informationDrawer'
 import { IFormInputsSchema } from '@/app/pages/services/atributes-validation'
 import { cn } from '@/app/styles/cn'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -50,7 +51,7 @@ export function Home() {
   } = useForm<IFormInputs>({
     resolver: zodResolver(IFormInputsSchema)
   })
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => handleSubmitData(data)
+   const onSubmit: SubmitHandler<IFormInputs> = (data) => handleSubmitData(data)
 
   async function handleSubmitData(data: IFormInputs) {
     console.log('Submitting data:', data)
@@ -110,6 +111,11 @@ export function Home() {
                 <HelpCircle
                   className="text-text-950 hover:text-accent-400 cursor-pointer transition-colors duration-300"
                   size={20}
+                  onClick={() =>{
+                    drawerContext?.setIsOpen(true)
+                    
+                    drawerContext?.setComponent(<InformationDrawer />)
+                  }}
                 />
               </div>
               <form
@@ -123,9 +129,9 @@ export function Home() {
                   error={errors.section?.message}
                   register_options={{
                     required: 'Campo obrigatório',
-                    valueAsNumber: true
+                    valueAsNumber: false
                   }}
-                  type="float"
+                  type="text"
                   placeholder="x (Metros)"
                   id="section"
                 />
@@ -136,9 +142,9 @@ export function Home() {
                   error={errors.height?.message}
                   register_options={{
                     required: 'Campo obrigatório',
-                    valueAsNumber: true
+                    valueAsNumber: false
                   }}
-                  type="float"
+                  type="text"
                   placeholder="h (Metros)"
                   id="height"
                 />
@@ -149,9 +155,9 @@ export function Home() {
                   error={errors.reflectance?.message}
                   register_options={{
                     required: 'Campo obrigatório',
-                    valueAsNumber: true
+                    valueAsNumber: false
                   }}
-                  type="float"
+                  type="text"
                   placeholder="z"
                   id="reflectance"
                 />

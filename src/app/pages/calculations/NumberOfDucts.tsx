@@ -82,9 +82,9 @@ export function NumberOfDucts() {
         error={errors.e_lux?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="E (Lux)"
         id="e_lux"
       />
@@ -95,9 +95,9 @@ export function NumberOfDucts() {
         error={errors.e_external?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="E externo (Lux)"
         id="e_external"
       />
@@ -110,7 +110,7 @@ export function NumberOfDucts() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="float"
+        type="number"
         // placeholder="φ"
         disabled={true}
         id="phi_duct"
@@ -122,9 +122,9 @@ export function NumberOfDucts() {
         error={errors.a?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="A (m²)"
         id="a"
       />
@@ -135,9 +135,9 @@ export function NumberOfDucts() {
         error={errors.fd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="Fd"
         id="fd"
       />
@@ -148,9 +148,9 @@ export function NumberOfDucts() {
         error={errors.cd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         defaultValue={3}
         // placeholder="Cd"
         disabled={true}

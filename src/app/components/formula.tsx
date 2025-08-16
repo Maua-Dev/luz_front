@@ -5,12 +5,13 @@ function EDLFormula() {
   return (
     <BlockMath
       math={`
-        \\begin{aligned}
-        EDL &= \\sin^2(θ) \\cdot \\arctan\\left(\\frac{b}{2h}\\right) \\\\
-        &\\quad + \\sin^2(θ) \\cdot \\sum^n_{i=1} \\Bigg[ \\arctan\\left(\\left(i + \\frac{1}{2}\\right)\\frac{b}{h}\\right) \\\\
-        &\\quad\\quad - \\arctan\\left(\\left(i - \\frac{1}{2}\\right)\\frac{b}{h}\\right) \\Bigg] \\rho^i
-        \\end{aligned}
-    `}
+        \\begin{split}
+          &EDL = \\sin^2(θ) \\cdot \\arctan\\left(\\frac{b}{2h}\\right) \\\\
+          &\\quad + \\sin^2(θ) \\cdot \\sum^n_{i=1} \\Bigg[ \\\\
+          &\\quad\\quad \\arctan\\left(\\left(i + \\frac{1}{2}\\right)\\frac{b}{h}\\right) \\\\
+          &\\quad - \\arctan\\left(\\left(i - \\frac{1}{2}\\right)\\frac{b}{h}\\right) \\Bigg] \\rho^i
+        \\end{split}
+      `}
     />
   )
 }

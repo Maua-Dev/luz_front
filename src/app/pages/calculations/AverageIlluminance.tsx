@@ -30,7 +30,7 @@ export function AverageIlluminance() {
   async function handleSubmitData(data: IAverageIlluminance) {
     setIsLoading(true)
 
-    const edlValue = localStorage.getItem('edl_value')
+    const edlValue = localStorage.getItem('edlValue')
     const bSection = localStorage.getItem('b_section')
 
     if (!edlValue || !bSection) {
@@ -61,7 +61,7 @@ export function AverageIlluminance() {
   }
 
   useEffect(() => {
-    const edlValue = Number(localStorage.getItem('edl_value'))
+    const edlValue = Number(localStorage.getItem('edlValue'))
     const bSection = Number(localStorage.getItem('b_section'))
     const eExternal = getValues('e_external')
 
@@ -86,13 +86,13 @@ export function AverageIlluminance() {
         error={errors.number_of_ducts?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true,
+          valueAsNumber: false,
           min: {
             value: 1,
             message: 'Valor mínimo é 1'
           }
         }}
-        type="float"
+        type="text"
         placeholder="Número de dutos"
         id="number_of_ducts"
       />
@@ -103,9 +103,9 @@ export function AverageIlluminance() {
         error={errors.e_external?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="E externo (Lux)"
         id="e_external"
       />
@@ -118,7 +118,7 @@ export function AverageIlluminance() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="float"
+        type="number"
         // placeholder="φ"
         disabled={true}
         id="phi_duct"
@@ -130,9 +130,9 @@ export function AverageIlluminance() {
         error={errors.a?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="A (m²)"
         id="a"
       />
@@ -143,9 +143,9 @@ export function AverageIlluminance() {
         error={errors.fd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="Fd"
         id="fd"
       />
@@ -156,9 +156,9 @@ export function AverageIlluminance() {
         error={errors.cd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         defaultValue={3}
         // placeholder="Cd"
         disabled={true}

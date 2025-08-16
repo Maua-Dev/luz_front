@@ -41,6 +41,17 @@ function Input({
           id={id}
           disabled={disabled}
           {...register(id, { ...register_options })}
+          {...id && { name: id }}
+          onChange={(e) => {
+            const value = e.target.value
+            const filtredValue = value.replace(/[^\d,]/g, '')
+
+            const parts= filtredValue.split(',')
+            const finalValue =
+              parts.length > 2 ? parts[0] + ',' + parts.slice(1).join('') : filtredValue
+
+            id.onChange(finalValue)
+          }}
           className={`bg-background-50 text-text-950 border-background-200 focus:ring-accent-400 h-16 w-full border p-2 text-xl transition-all duration-300 focus:ring-2 focus:outline-none sm:h-full sm:w-64 ${error ? 'border-red-500' : ''} ${className}`}
           placeholder={placeholder}
           defaultValue={defaultValue}

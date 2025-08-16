@@ -8,14 +8,14 @@ import {
 } from 'react'
 import { X } from 'react-feather'
 
-interface DrawerContext {
+interface DrawerNavbarContext {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DrawerContext = createContext<DrawerContext | undefined>(undefined)
+const DrawerNavbarContext = createContext<DrawerNavbarContext | undefined>(undefined)
 
-function Drawer({
+function DrawerNavbar({
   children,
   isOpen,
   setIsOpen
@@ -25,7 +25,7 @@ function Drawer({
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }) {
   return (
-    <DrawerContext.Provider value={{ isOpen, setIsOpen }}>
+    <DrawerNavbarContext.Provider value={{ isOpen, setIsOpen }}>
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -48,14 +48,14 @@ function Drawer({
           </motion.div>
         )}
       </AnimatePresence>
-    </DrawerContext.Provider>
+    </DrawerNavbarContext.Provider>
   )
 }
 
-function DrawerContent({ children }: { children: ReactNode }) {
-  const context = useContext(DrawerContext)
+function DrawerNavbarContent({ children }: { children: ReactNode }) {
+  const context = useContext(DrawerNavbarContext)
   if (!context) {
-    throw new Error('DrawerContent must be used within a Drawer')
+    throw new Error('DrawerNavbarContent must be used within a Drawer')
   }
   return (
     <motion.div
@@ -63,31 +63,30 @@ function DrawerContent({ children }: { children: ReactNode }) {
       animate={{ x: 0 }}
       exit={{ x: '100%' }}
       transition={{ duration: 0.3 }}
-      className="fixed top-0 right-0 z-100 flex h-full w-6/7 flex-col overflow-y-auto bg-white md:w-2xl lg:w-1/3"
+      className="fixed top-0 right-0 z-100 flex h-full w-6/7 flex-col overflow-y-auto bg-background-900 md:w-2xl lg:w-1/3"
     >
       {children}
     </motion.div>
   )
 }
 
-function DrawerTopbar({ children }: { children: ReactNode }) {
-  const context = useContext(DrawerContext)
+function DrawerNavbarTopbar() {
+  const context = useContext(DrawerNavbarContext)
   if (!context) {
-    throw new Error('DrawerTopbar must be used within a Drawer')
+    throw new Error('DrawerNavbarTopbar must be used within a Drawer')
   }
 
   return (
-    <div className="mr-10 ml-10 flex flex-shrink-0 items-center justify-between border-b  pt-8 pb-1">
-      <p className="text-xl">{children}</p>
-
+    <div className="mr-10 ml-10 flex flex-shrink-0 items-center justify-end  pt-8 pb-1">
       <button
-        className="hover:text-accent-500 cursor-pointer text transition-colors duration-300"
+        className="hover:text-accent-500 cursor-pointer text-text-50 transition-colors duration-300"
         onClick={() => context.setIsOpen(false)}
       >
         <X size={24} />
       </button>
     </div>
+    
   )
 }
 
-export { Drawer, DrawerContent, DrawerTopbar }
+export { DrawerNavbar, DrawerNavbarContent, DrawerNavbarTopbar }
