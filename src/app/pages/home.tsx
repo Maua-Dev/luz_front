@@ -58,9 +58,9 @@ export function Home() {
     setIsLoading(true)
 
     const params = new URLSearchParams({
-      b_section: String(data.section),
-      h_height: String(data.height),
-      p_reflectance: String(data.reflectance)
+      b_section: String(Number(data.section.replace(',', '.'))),
+      h_height: String(Number(data.height.replace(',', '.'))),
+      p_reflectance: String(Number(data.reflectance.replace(',', '.')))
     }).toString()
 
     try {

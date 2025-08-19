@@ -40,11 +40,11 @@ export function NumberOfDucts() {
 
     const params = new URLSearchParams({
       edl_prcnt: edlValue!.toString(),
-      b_section: Number(bSection).toString(),
-      e_lux: data.e_lux.toString(),
-      e_external: data.e_external.toString(),
-      a_area: data.a.toString(),
-      fd_value: data.fd.toString()
+      b_section: String(Number(bSection.replace(',', '.'))),
+      e_lux: String(Number(data.e_lux.replace(',', '.'))),
+      e_external: String(Number(data.e_external.replace(',', '.'))),
+      a_area: String(Number(data.a.replace(',', '.'))),
+      fd_value: String(Number(data.fd.replace(',', '.')))
     }).toString()
 
     try {
@@ -61,8 +61,8 @@ export function NumberOfDucts() {
 
   useEffect(() => {
     const edlValue = Number(localStorage.getItem('edlValue'))
-    const bValue = Number(localStorage.getItem('b_section'))
-    const e_external = getValues('e_external')
+    const bValue = Number(localStorage.getItem('b_section')?.replace(',', '.'))
+    const e_external = Number(getValues('e_external').replace(',', '.'))
 
     const edllux = (edlValue * e_external) / 100
 

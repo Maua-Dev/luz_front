@@ -40,12 +40,12 @@ export function AverageIlluminance() {
     }
 
     const param = new URLSearchParams({
-      n_value: data.number_of_ducts.toString(),
+      n_value: String(Number(data.number_of_ducts.replace(',', '.'))),
       edl_prcnt: edlValue!.toString(),
-      b_section: Number(bSection).toString(),
-      e_external: data.e_external.toString(),
-      a_area: data.a.toString(),
-      fd_value: data.fd.toString()
+      b_section: String(Number(bSection.replace(',', '.'))),
+      e_external: String(Number(data.e_external.replace(',', '.'))),
+      a_area: String(Number(data.a.replace(',', '.'))),
+      fd_value: String(Number(data.fd.replace(',', '.')))
     }).toString()
 
     try {
@@ -62,8 +62,8 @@ export function AverageIlluminance() {
 
   useEffect(() => {
     const edlValue = Number(localStorage.getItem('edlValue'))
-    const bSection = Number(localStorage.getItem('b_section'))
-    const eExternal = getValues('e_external')
+    const bSection = Number(localStorage.getItem('b_section')?.replace(',', '.'))
+    const eExternal = Number(getValues('e_external').replace(',', '.'))
 
     const edlLux = (edlValue * eExternal) / 100
 
