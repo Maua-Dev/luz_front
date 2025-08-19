@@ -13,7 +13,7 @@ import { useContext } from 'react'
 function Information() {
   return (
     <AnimatePresence>
-      <div className="px-10">
+      <div className="text-text-50 px-10">
         <p className="py-4 text-justify text-sm">
           E - iluminância requerida (lux);
           <br />
@@ -31,28 +31,32 @@ function Information() {
           a, b - dimensões do ambiente (m); <br />h - pé direito útil (da saída
           no forro até o plano de trabalho) (m). <br />
         </p>
-        <div className="py-3">
-          <h1 className="w-full border-b border-black pb-1 text-xl">Desenho</h1>
+        <div className="py-2">
+          <h1 className="border-text-50 w-full border-b pb-1 text-xl">
+            Desenho
+          </h1>
           <p>
-            <img src="drawing_model.png" alt="desenho" className="py-5" />
+            <img src="drawing_model_white.png" alt="desenho" className="py-5" />
           </p>
         </div>
-        <div className="py-3">
-          <h1 className="w-full border-b border-black pb-1 text-xl">Cálculo</h1>
-          <div className="text-justify">
-            <div className="py-2">
+        <div>
+          <h1 className="border-text-50 w-full border-b pb-1 text-xl">
+            Cálculo
+          </h1>
+          <div className="flex flex-shrink-0 flex-col text-justify">
+            <div className="text-l md:text py-1">
               <EDLFormula />
             </div>
-            <div className="mr-43 py-2">
+            <div className="py-1">
               <EDLFormula2 />
             </div>
-            <div className="mr-60 py-2">
+            <div className="py-1">
               <PhiFormula />
             </div>
-            <div className="mr-50 py-2">
+            <div className="py-1">
               <NFormula />
             </div>
-            <div className="mr-50 py-2">
+            <div className="py-1">
               <RCRFormula />
             </div>
           </div>
