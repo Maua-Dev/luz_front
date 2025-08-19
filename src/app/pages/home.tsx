@@ -51,7 +51,7 @@ export function Home() {
   } = useForm<IFormInputs>({
     resolver: zodResolver(IFormInputsSchema)
   })
-   const onSubmit: SubmitHandler<IFormInputs> = (data) => handleSubmitData(data)
+  const onSubmit: SubmitHandler<IFormInputs> = (data) => handleSubmitData(data)
 
   async function handleSubmitData(data: IFormInputs) {
     console.log('Submitting data:', data)
@@ -111,9 +111,9 @@ export function Home() {
                 <HelpCircle
                   className="text-text-950 hover:text-accent-400 cursor-pointer transition-colors duration-300"
                   size={20}
-                  onClick={() =>{
+                  onClick={() => {
                     drawerContext?.setIsOpen(true)
-                    
+
                     drawerContext?.setComponent(<InformationDrawer />)
                   }}
                 />

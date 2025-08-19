@@ -6,7 +6,7 @@ import { useContext } from 'react'
 function Table() {
   return (
     <AnimatePresence>
-      <main className="px-10 py-5 text-text-50">
+      <main className="text-text-50 px-10 py-5">
         <div className="flex h-150 flex-shrink-0 items-center justify-center border-1">
           <div>(Em desenvolvimento)</div>
         </div>

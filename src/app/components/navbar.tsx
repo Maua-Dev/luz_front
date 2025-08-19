@@ -1,5 +1,8 @@
-import { Drawer, DrawerContent } from '@/app/components/drawer'
-import { DrawerNavbar, DrawerNavbarContent, DrawerNavbarTopbar } from '@/app/components/mobile-navbar'
+import {
+  DrawerNavbar,
+  DrawerNavbarContent,
+  DrawerNavbarTopbar
+} from '@/app/components/mobile-navbar'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { HowToUseDrawer } from '@/app/pages/drawer_pages/howToUseDrawer'
 import { InformationDrawer } from '@/app/pages/drawer_pages/informationDrawer'
@@ -52,11 +55,8 @@ function NavbarLinks() {
 
         <li className="text-text-50 hover:text-accent-400 cursor-pointer text-2xl transition-colors duration-300 md:text-base">
           <Link to={``}>Saiba mais</Link>
-
         </li>
-
       </ul>
-
     </div>
   )
 }
@@ -67,10 +67,13 @@ function NavbarDrawer() {
     throw new Error('NavbarDrawer must be used within a DrawerContex')
   }
   return (
-    <DrawerNavbar isOpen={navbarContext.isOpen} setIsOpen={navbarContext.setIsOpen}>
+    <DrawerNavbar
+      isOpen={navbarContext.isOpen}
+      setIsOpen={navbarContext.setIsOpen}
+    >
       <DrawerNavbarContent>
         <DrawerNavbarTopbar></DrawerNavbarTopbar>
-        <div className='flex flex-col py-5'>
+        <div className="flex flex-col py-5">
           <img src="icon.svg" alt="Logo" className="h-10" />
           <NavbarLinks />
         </div>

@@ -6,7 +6,7 @@ import { useContext } from 'react'
 function Explanation() {
   return (
     <AnimatePresence>
-      <main className="px-10 py-3 text-justify text-text-50">
+      <main className="text-text-50 px-10 py-3 text-justify">
         <p className="py-1">
           Para iniciar, realize o calculo do EDL. Preencha as caixas à direita
           com os respectivos valores e clique em Calcular, o resultado da conta

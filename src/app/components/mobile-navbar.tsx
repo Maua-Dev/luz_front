@@ -13,7 +13,9 @@ interface DrawerNavbarContext {
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DrawerNavbarContext = createContext<DrawerNavbarContext | undefined>(undefined)
+const DrawerNavbarContext = createContext<DrawerNavbarContext | undefined>(
+  undefined
+)
 
 function DrawerNavbar({
   children,
@@ -63,7 +65,7 @@ function DrawerNavbarContent({ children }: { children: ReactNode }) {
       animate={{ x: 0 }}
       exit={{ x: '100%' }}
       transition={{ duration: 0.3 }}
-      className="fixed top-0 right-0 z-100 flex h-full w-6/7 flex-col overflow-y-auto bg-background-900 md:w-2xl lg:w-1/3"
+      className="bg-background-900 fixed top-0 right-0 z-100 flex h-full w-6/7 flex-col overflow-y-auto md:w-2xl lg:w-1/3"
     >
       {children}
     </motion.div>
@@ -77,15 +79,14 @@ function DrawerNavbarTopbar() {
   }
 
   return (
-    <div className="mr-10 ml-10 flex flex-shrink-0 items-center justify-end  pt-8 pb-1">
+    <div className="mr-10 ml-10 flex flex-shrink-0 items-center justify-end pt-8 pb-1">
       <button
-        className="hover:text-accent-500 cursor-pointer text-text-50 transition-colors duration-300"
+        className="hover:text-accent-500 text-text-50 cursor-pointer transition-colors duration-300"
         onClick={() => context.setIsOpen(false)}
       >
         <X size={24} />
       </button>
     </div>
-    
   )
 }
 

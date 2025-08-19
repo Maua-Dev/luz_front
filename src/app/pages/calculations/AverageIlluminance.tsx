@@ -62,7 +62,9 @@ export function AverageIlluminance() {
 
   useEffect(() => {
     const edlValue = Number(localStorage.getItem('edlValue'))
-    const bSection = Number(localStorage.getItem('b_section')?.replace(',', '.'))
+    const bSection = Number(
+      localStorage.getItem('b_section')?.replace(',', '.')
+    )
     const eExternal = Number(getValues('e_external').replace(',', '.'))
 
     const edlLux = (edlValue * eExternal) / 100
