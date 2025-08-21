@@ -16,7 +16,7 @@ export class IacStack extends cdk.Stack {
     const stage = process.env.STAGE || 'dev'
     const acmCertificateArn =
       process.env.ACM_CERTIFICATE_ARN || ''
-    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || 'luz.dev.devmaua.com'
+    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || ''
     const hostedZoneIdValue = process.env.HOSTED_ZONE_ID || 'Z1234567890123'
     const s3Bucket = new s3.Bucket(this, 'LuzFrontBucket' + stage, {
       versioned: true,

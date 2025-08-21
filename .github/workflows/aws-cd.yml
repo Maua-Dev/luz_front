@@ -47,6 +47,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - name: 'DEBUG: Test Certificate Access'
+        run: |
+          echo "Attempting to describe certificate: ${{ env.ACM_CERTIFICATE_ARN }}"
+          aws acm describe-certificate --certificate-arn ${{ env.ACM_CERTIFICATE_ARN }} --region us-east-1
+        env:
+          ACM_CERTIFICATE_ARN: ${{ secrets.DEV_ACM_DEVMAUA_CERTIFICATE_ARN }} 
       - name: Setting stage and stack name
         run: |
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
