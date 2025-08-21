@@ -6,124 +6,60 @@ import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
 import * as route53 from 'aws-cdk-lib/aws-route53'
 import * as route53Targets from 'aws-cdk-lib/aws-route53-targets'
 import * as iam from 'aws-cdk-lib/aws-iam'
-
 import { Construct } from 'constructs'
 
 export class IacStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
 
-    // dev: sa-east-1
-    // homolog: us-west-2
-    // prod: us-east-1
-    // const stage = process.env.GITHUB_REF_NAME || 'dev'
     const stage = process.env.STAGE || 'dev'
-    const acmCertificateArn =
-      process.env.ACM_CERTIFICATE_ARN ||
-      'arn:aws:acm:us-east-1:992382618309:certificate/b4512377-3ec2-4d50-9e55-2477be72bf2c'
-    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || 'luz.dev.devmaua.com'
-    const hostedZoneIdValue = process.env.HOSTED_ZONE_ID || 'Z1234567890123'
+    const acmCertificateArn = process.env.ACM_CERTIFICATE_ARN
+    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME
+    const hostedZoneIdValue = process.env.HOSTED_ZONE_ID
+
+    if (!acmCertificateArn || !alternativeDomain || !hostedZoneIdValue) {
+      throw new Error('As variáveis de ambiente ACM_CERTIFICATE_ARN, ALTERNATIVE_DOMAIN_NAME e HOSTED_ZONE_ID devem ser definidas.')
+    }
+    
     const s3Bucket = new s3.Bucket(this, 'LuzFrontBucket' + stage, {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      accessControl: s3.BucketAccessControl.PRIVATE,
       autoDeleteObjects: true
     })
 
-    const oac = new cloudfront.CfnOriginAccessControl(this, 'AOC', {
-      originAccessControlConfig: {
-        name: 'Luz Front Bucket OAC ' + stage,
-        originAccessControlOriginType: 's3',
-        signingBehavior: 'always',
-        signingProtocol: 'sigv4'
-      }
-    })
-
-    let viewerCertificate =
-      cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate()
-    if (stage === 'dev' || stage === 'homolog') {
-      viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
-        Certificate.fromCertificateArn(
-          this,
-          'LuzFrontCertificate-' + stage,
-          acmCertificateArn
-        ),
-        {
-          securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
-        }
-      )
-    }
-
-    if (stage === 'prod') {
-      viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
-        Certificate.fromCertificateArn(
-          this,
-          'LuzFrontCertificate-' + stage,
-          acmCertificateArn
-        ),
-        {
-          securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
-        }
-      )
-    }
-
-    const cloudFrontWebDistribution = new cloudfront.CloudFrontWebDistribution(
+    const certificate = Certificate.fromCertificateArn(
       this,
-      'CDN',
-      {
-        comment: 'Luz Front Distribution ' + stage,
-        originConfigs: [
-          {
-            s3OriginSource: {
-              s3BucketSource: s3Bucket
-            },
-            behaviors: [
-              {
-                isDefaultBehavior: true,
-                allowedMethods: cloudfront.CloudFrontAllowedMethods.GET_HEAD,
-                compress: true,
-                cachedMethods:
-                  cloudfront.CloudFrontAllowedCachedMethods.GET_HEAD,
-                viewerProtocolPolicy:
-                  cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-                minTtl: cdk.Duration.seconds(0),
-                maxTtl: cdk.Duration.seconds(86400),
-                defaultTtl: cdk.Duration.seconds(3600)
-              }
-            ]
-          }
-        ],
-        viewerCertificate: viewerCertificate,
-        errorConfigurations: [
-          {
-            errorCode: 403,
-            responseCode: 200,
-            responsePagePath: '/index.html',
-            errorCachingMinTtl: 0
-          }
-        ]
-      }
+      'LuzFrontCertificate-' + stage,
+      acmCertificateArn
     )
 
-    const cfnDistribution = cloudFrontWebDistribution.node
-      .defaultChild as cloudfront.CfnDistribution
+    const distribution = new cloudfront.Distribution(this, 'CDN', {
+      comment: 'Luz Front Distribution ' + stage,
+      defaultRootObject: 'index.html',
+      domainNames: [alternativeDomain],
+      certificate: certificate,
+      defaultBehavior: {
+        origin: new origins.S3Origin(s3Bucket),
+        allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        compress: true,
+      },
+      errorResponses: [
+        {
+          httpStatus: 403,
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html',
+        },
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html',
+        }
+      ]
+    });
 
-    cfnDistribution.addPropertyOverride(
-      'DistributionConfig.Origins.0.OriginAccessControlId',
-      oac.getAtt('Id')
-    )
-
-    s3Bucket.addToResourcePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['s3:GetObject'],
-        principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],
-        resources: [s3Bucket.arnForObjects('*')]
-      })
-    )
-
-     if (stage === 'prod' || stage === 'homolog' || stage === 'dev') {
+    if (stage === 'prod' || stage === 'homolog' || stage === 'dev') {
       const zone = route53.HostedZone.fromHostedZoneAttributes(
         this,
         'LuzFrontHostedZone-' + stage,
@@ -137,7 +73,7 @@ export class IacStack extends cdk.Stack {
         zone: zone,
         recordName: alternativeDomain,
         target: route53.RecordTarget.fromAlias(
-          new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)
+          new route53Targets.CloudFrontTarget(distribution)
         )
       })
     }
@@ -147,11 +83,11 @@ export class IacStack extends cdk.Stack {
     })
 
     new cdk.CfnOutput(this, 'LuzFrontDistributionId-' + stage, {
-      value: cloudFrontWebDistribution.distributionId
+      value: distribution.distributionId
     })
 
     new cdk.CfnOutput(this, 'LuzFrontDistributionDomainName-' + stage, {
-      value: cloudFrontWebDistribution.distributionDomainName
+      value: distribution.distributionDomainName
     })
   }
 }

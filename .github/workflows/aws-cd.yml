@@ -72,7 +72,15 @@ jobs:
           echo AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }} >> $GITHUB_ENV
           echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
           echo GITHUB_REF_NAME=${{ env.STAGE }} >> $GITHUB_ENV
-          echo ACM_CERTIFICATE_ARN=${{ secrets.DEVMAUA_ACM_CERTIFICATE_ARN }} >> $GITHUB_ENV
+
+          if [[ "${{ github.ref_name }}" == "dev" ]]; then
+            echo "ACM_CERTIFICATE_ARN=${{ secrets.DEV_ACM_DEVMAUA_CERTIFICATE_ARN }}" >> $GITHUB_ENV
+          elif [[ "${{ github.ref_name }}" == "homolog" ]]; then
+            echo "ACM_CERTIFICATE_ARN=${{ secrets.HML_ACM_DEVMAUA_CERTIFICATE_ARN }}" >> $GITHUB_ENV
+          elif [[ "${{ github.ref_name }}" == "prod" ]]; then
+            echo "ACM_CERTIFICATE_ARN=${{ secrets.PROD_ACM_DEVMAUA_CERTIFICATE_ARN }}" >> $GITHUB_ENV
+          fi
+          
           echo ALTERNATIVE_DOMAIN_NAME=${{ vars.ALTERNATIVE_DOMAIN_NAME }} >> $GITHUB_ENV
           echo HOSTED_ZONE_ID=${{ secrets.DEVMAUA_HOSTED_ZONE_ID }} >> $GITHUB_ENV
       - name: Configure bootstrap
