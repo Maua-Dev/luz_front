@@ -19,9 +19,8 @@ export class IacStack extends cdk.Stack {
     // const stage = process.env.GITHUB_REF_NAME || 'dev'
     const stage = process.env.STAGE || 'dev'
     const acmCertificateArn =
-      process.env.ACM_CERTIFICATE_ARN ||
-      'arn:aws:acm:us-east-1:992382618309:certificate/b4512377-3ec2-4d50-9e55-2477be72bf2c'
-    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || 'luz.dev.devmaua.com'
+      process.env.ACM_CERTIFICATE_ARN || ''
+    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME
     const hostedZoneIdValue = process.env.HOSTED_ZONE_ID || 'Z1234567890123'
     const s3Bucket = new s3.Bucket(this, 'LuzFrontBucket' + stage, {
       versioned: true,
@@ -40,8 +39,18 @@ export class IacStack extends cdk.Stack {
       }
     })
 
+    if (
+      (stage === 'dev' || stage === 'homolog' || stage === 'prod') &&
+      !acmCertificateArn
+    ) {
+      throw new Error(
+        `ACM_CERTIFICATE_ARN é obrigatório para o stage: ${stage}`
+      )
+    }
+
     let viewerCertificate =
       cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate()
+      
     if (stage === 'dev' || stage === 'homolog') {
       viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
         Certificate.fromCertificateArn(
