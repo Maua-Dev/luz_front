@@ -13,10 +13,6 @@ export class IacStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
 
-    // dev: sa-east-1
-    // homolog: us-west-2
-    // prod: us-east-1
-    // const stage = process.env.GITHUB_REF_NAME || 'dev'
     const stage = process.env.STAGE || 'dev'
     const acmCertificateArn =
       process.env.ACM_CERTIFICATE_ARN || ''
@@ -50,7 +46,7 @@ export class IacStack extends cdk.Stack {
 
     let viewerCertificate =
       cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate()
-      
+
     if (stage === 'dev' || stage === 'homolog') {
       viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
         Certificate.fromCertificateArn(
