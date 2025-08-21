@@ -16,15 +16,18 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v2
-      - name: Determine AWS Account ID
+      - uses: actions/checkout@v4
+      - name: Determine AWS Account ID and Region
         run: |
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID_DEV }}" >> $GITHUB_ENV
+            echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "homolog" ]]; then
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID_HOML }}" >> $GITHUB_ENV
+            echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "prod" ]]; then
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID_PROD }}" >> $GITHUB_ENV
+            echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
           else
             echo "Invalid branch name!" && exit 1
           fi
