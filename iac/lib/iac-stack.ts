@@ -77,6 +77,7 @@ export class IacStack extends cdk.Stack {
           acmCertificateArn
         ),
         {
+          aliases: [alternativeDomain!],
           securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
         }
       )
