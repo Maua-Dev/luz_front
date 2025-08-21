@@ -25,6 +25,7 @@ export class IacStack extends cdk.Stack {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
       autoDeleteObjects: true
     })
 
