@@ -1,8 +1,10 @@
 import * as cdk from 'aws-cdk-lib'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
-// import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
-// import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
+import * as route53 from 'aws-cdk-lib/aws-route53'
+import * as route53Targets from 'aws-cdk-lib/aws-route53-targets'
 import * as iam from 'aws-cdk-lib/aws-iam'
 
 import { Construct } from 'constructs'
@@ -16,10 +18,11 @@ export class IacStack extends cdk.Stack {
     // prod: us-east-1
     // const stage = process.env.GITHUB_REF_NAME || 'dev'
     const stage = process.env.STAGE || 'dev'
-    // const acmCertificateArn =
-    //   process.env.ACM_CERTIFICATE_ARN ||
-    //   'arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012'
-
+    const acmCertificateArn =
+      process.env.ACM_CERTIFICATE_ARN ||
+      'arn:aws:acm:us-east-1:992382618309:certificate/b4512377-3ec2-4d50-9e55-2477be72bf2c'
+    const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || 'luz.dev.devmaua.com'
+    const hostedZoneIdValue = process.env.HOSTED_ZONE_ID || 'Z1234567890123'
     const s3Bucket = new s3.Bucket(this, 'LuzFrontBucket' + stage, {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -37,33 +40,33 @@ export class IacStack extends cdk.Stack {
       }
     })
 
-    // let viewerCertificate =
-    //   cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate()
-    // if (stage === 'dev' || stage === 'homolog') {
-    //   viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
-    //     Certificate.fromCertificateArn(
-    //       this,
-    //       'ReservationFrontCertificate-' + stage,
-    //       acmCertificateArn
-    //     ),
-    //     {
-    //       securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
-    //     }
-    //   )
-    // }
+    let viewerCertificate =
+      cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate()
+    if (stage === 'dev' || stage === 'homolog') {
+      viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
+        Certificate.fromCertificateArn(
+          this,
+          'LuzFrontCertificate-' + stage,
+          acmCertificateArn
+        ),
+        {
+          securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
+        }
+      )
+    }
 
-    // if (stage === 'prod') {
-    //   viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
-    //     Certificate.fromCertificateArn(
-    //       this,
-    //       'ReservationFrontCertificate-' + stage,
-    //       acmCertificateArn
-    //     ),
-    //     {
-    //       securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
-    //     }
-    //   )
-    // }
+    if (stage === 'prod') {
+      viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(
+        Certificate.fromCertificateArn(
+          this,
+          'LuzFrontCertificate-' + stage,
+          acmCertificateArn
+        ),
+        {
+          securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
+        }
+      )
+    }
 
     const cloudFrontWebDistribution = new cloudfront.CloudFrontWebDistribution(
       this,
@@ -91,7 +94,7 @@ export class IacStack extends cdk.Stack {
             ]
           }
         ],
-        // viewerCertificate: viewerCertificate,
+        viewerCertificate: viewerCertificate,
         errorConfigurations: [
           {
             errorCode: 403,
@@ -119,6 +122,25 @@ export class IacStack extends cdk.Stack {
         resources: [s3Bucket.arnForObjects('*')]
       })
     )
+
+     if (stage === 'prod' || stage === 'homolog' || stage === 'dev') {
+      const zone = route53.HostedZone.fromHostedZoneAttributes(
+        this,
+        'LuzFrontHostedZone-' + stage,
+        {
+          hostedZoneId: hostedZoneIdValue,
+          zoneName: alternativeDomain
+        }
+      )
+
+      new route53.ARecord(this, 'LuzFrontAliasRecord-' + stage, {
+        zone: zone,
+        recordName: alternativeDomain,
+        target: route53.RecordTarget.fromAlias(
+          new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)
+        )
+      })
+    }
 
     new cdk.CfnOutput(this, 'LuzFrontBucketName-' + stage, {
       value: s3Bucket.bucketName
