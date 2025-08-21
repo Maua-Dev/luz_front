@@ -44,6 +44,15 @@ export class IacStack extends cdk.Stack {
       )
     }
 
+    if (
+      (stage === 'dev' || stage === 'homolog' || stage === 'prod') &&
+      !alternativeDomain
+    ) {
+      throw new Error(
+        `A variável de ambiente ALTERNATIVE_DOMAIN_NAME é obrigatória para o stage: ${stage}`
+      )
+    }
+    
     let viewerCertificate =
       cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate()
 
