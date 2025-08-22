@@ -1,6 +1,7 @@
 import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
 import Navbar from '@/app/components/navbar'
+import { TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Tooltip'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
 import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
@@ -11,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { useContext, useEffect, useState, type ReactNode } from 'react'
-import { HelpCircle } from 'react-feather'
+import { HelpCircle, Info } from 'react-feather'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import type z from 'zod'
 
@@ -136,7 +137,7 @@ export function Home() {
                   id="section"
                 />
                 <Input
-                  label="c (Comprimento)"
+                  label="h (Comprimento)"
                   tooltip="Comprimento do duto (m)"
                   register={register}
                   error={errors.height?.message}
@@ -165,9 +166,23 @@ export function Home() {
                   <p className="text-lg">Resultado:</p>
                   <div className="flex flex-col items-start justify-between gap-x-4 gap-y-8 sm:flex-row sm:items-center">
                     <div className="border-accent-500 w-full border-2 p-4 sm:w-64 sm:max-w-64">
-                      <p className="text-text-950 text-lg font-semibold">
-                        EDL = {edlValue !== null ? edlValue : '0.00'}
-                      </p>
+                      <div className="flex h-full w-full flex-row items-center justify-between p-2">
+                        <p className="text-text-950 text-lg font-semibold">
+                          EDL = {edlValue !== null ? edlValue : '0.00'} {edlValue && '%'}
+                        </p>
+                        <TooltipProvider>
+                          <TooltipTrigger>
+                            <Info
+                              className="text-text-900 hover:text-accent-400 cursor-pointer transition-colors duration-300"
+                              size={20}
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="text-text-50 text-sm">Eficiência do Duto de Luz</p>
+                          </TooltipContent>
+                        </TooltipProvider>
+                        
+                      </div>
                     </div>
                     <Button
                       type="submit"

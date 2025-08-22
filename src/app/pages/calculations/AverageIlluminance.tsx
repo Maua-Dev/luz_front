@@ -161,9 +161,9 @@ export function AverageIlluminance() {
           valueAsNumber: false
         }}
         type="text"
-        defaultValue={3}
-        // placeholder="Cd"
-        disabled={true}
+        // defaultValue={3}
+        placeholder="Cd/ recomendasse 3"
+        disabled={false}
         id="cd"
       />
       <div>
