@@ -121,7 +121,7 @@ export function Home() {
               </div>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-4"
+                className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
               >
                 <Input
                   label="b (Seção)"
