@@ -158,7 +158,7 @@ export class IacStack extends cdk.Stack {
 
       new route53.ARecord(this, 'LuzFrontAliasRecordWWW-' + stage, {
         zone: zone,
-        recordName: 'www.' + alternativeDomain,
+        recordName: 'www.luz.dev.devmaua.com',
         target: route53.RecordTarget.fromAlias(
           new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)
         )
