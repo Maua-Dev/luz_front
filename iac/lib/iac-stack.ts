@@ -63,9 +63,7 @@ export class IacStack extends cdk.Stack {
           acmCertificateArn
         ),
         {
-          aliases: [alternativeDomain!, 'www.' + alternativeDomain]
-        },
-        {
+          aliases: [alternativeDomain!, 'www.' + alternativeDomain],
           securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
         }
       )
@@ -153,6 +151,14 @@ export class IacStack extends cdk.Stack {
       new route53.ARecord(this, 'LuzFrontAliasRecord-' + stage, {
         zone: zone,
         recordName: alternativeDomain,
+        target: route53.RecordTarget.fromAlias(
+          new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)
+        )
+      })
+
+      new route53.ARecord(this, 'LuzFrontAliasRecordWWW-' + stage, {
+        zone: zone,
+        recordName: 'www.' + alternativeDomain,
         target: route53.RecordTarget.fromAlias(
           new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)
         )
