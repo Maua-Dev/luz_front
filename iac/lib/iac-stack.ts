@@ -14,8 +14,7 @@ export class IacStack extends cdk.Stack {
     super(scope, id, props)
 
     const stage = process.env.STAGE || 'dev'
-    const acmCertificateArn =
-      process.env.ACM_CERTIFICATE_ARN || ''
+    const acmCertificateArn = process.env.ACM_CERTIFICATE_ARN || ''
     const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || ''
     const hostedZoneIdValue = process.env.HOSTED_ZONE_ID || 'Z1234567890123'
     const s3Bucket = new s3.Bucket(this, 'LuzFrontBucket' + stage, {
@@ -64,6 +63,9 @@ export class IacStack extends cdk.Stack {
           acmCertificateArn
         ),
         {
+          aliases: [alternativeDomain!, 'www.' + alternativeDomain]
+        },
+        {
           securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
         }
       )
@@ -77,7 +79,7 @@ export class IacStack extends cdk.Stack {
           acmCertificateArn
         ),
         {
-          aliases: [alternativeDomain!],
+          aliases: [alternativeDomain!, 'www.' + alternativeDomain],
           securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021
         }
       )
@@ -138,7 +140,7 @@ export class IacStack extends cdk.Stack {
       })
     )
 
-     if (stage === 'prod' || stage === 'homolog' || stage === 'dev') {
+    if (stage === 'prod' || stage === 'homolog' || stage === 'dev') {
       const zone = route53.HostedZone.fromHostedZoneAttributes(
         this,
         'LuzFrontHostedZone-' + stage,
@@ -151,6 +153,14 @@ export class IacStack extends cdk.Stack {
       new route53.ARecord(this, 'LuzFrontAliasRecord-' + stage, {
         zone: zone,
         recordName: alternativeDomain,
+        target: route53.RecordTarget.fromAlias(
+          new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)
+        )
+      })
+
+      new route53.ARecord(this, 'LuzFrontAliasRecordWWW-' + stage, {
+        zone: zone,
+        recordName: 'www.' + alternativeDomain,
         target: route53.RecordTarget.fromAlias(
           new route53Targets.CloudFrontTarget(cloudFrontWebDistribution)
         )
