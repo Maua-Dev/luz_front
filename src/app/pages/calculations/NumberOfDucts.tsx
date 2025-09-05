@@ -74,7 +74,10 @@ export function NumberOfDucts() {
   ])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
+    >
       <Input
         label="E lux"
         tooltip="Iluminância média do ambiente (Lux)"

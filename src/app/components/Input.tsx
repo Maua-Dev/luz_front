@@ -20,7 +20,7 @@ function Input({
   id = ''
 }: IInput) {
   return (
-    <div className="flex h-fit flex-col items-center justify-between gap-x-8 gap-y-4 sm:gap-y-8 sm:h-16 sm:flex-row">
+    <div className="flex h-fit flex-col items-center justify-between gap-x-8 gap-y-4 sm:h-16 sm:flex-row sm:gap-y-8">
       <div className="bg-background-900 flex h-full w-full flex-row items-center justify-between p-4">
         <p className="text-text-50 text-xl">{label}</p>
         <TooltipProvider>

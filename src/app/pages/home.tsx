@@ -1,7 +1,11 @@
 import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
 import Navbar from '@/app/components/navbar'
-import { TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Tooltip'
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/app/components/Tooltip'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
 import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
@@ -168,7 +172,8 @@ export function Home() {
                     <div className="border-accent-500 w-full border-2 p-4 sm:w-64 sm:max-w-64">
                       <div className="flex h-full w-full flex-row items-center justify-between p-2">
                         <p className="text-text-950 text-lg font-semibold">
-                          EDL = {edlValue !== null ? edlValue : '0.00'} {edlValue && '%'}
+                          EDL = {edlValue !== null ? edlValue : '0.00'}{' '}
+                          {edlValue && '%'}
                         </p>
                         <TooltipProvider>
                           <TooltipTrigger>
@@ -178,10 +183,11 @@ export function Home() {
                             />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p className="text-text-50 text-sm">Eficiência do Duto de Luz</p>
+                            <p className="text-text-50 text-sm">
+                              Eficiência do Duto de Luz
+                            </p>
                           </TooltipContent>
                         </TooltipProvider>
-                        
                       </div>
                     </div>
                     <Button
