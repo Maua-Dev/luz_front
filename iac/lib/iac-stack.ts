@@ -14,6 +14,10 @@ export class IacStack extends cdk.Stack {
     super(scope, id, props)
 
     const stage = process.env.STAGE || 'dev'
+    cdk.Tags.of(this).add("name", "LUZ-FRONT")
+    cdk.Tags.of(this).add("project", "LuzMss")
+    cdk.Tags.of(this).add("stage", stage)
+    cdk.Tags.of(this).add("stack", "FRONT")
     const acmCertificateArn = process.env.ACM_CERTIFICATE_ARN || ''
     const alternativeDomain = process.env.ALTERNATIVE_DOMAIN_NAME || ''
     const hostedZoneIdValue = process.env.HOSTED_ZONE_ID || 'Z1234567890123'
