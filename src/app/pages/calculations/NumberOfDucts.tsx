@@ -74,7 +74,10 @@ export function NumberOfDucts() {
   ])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
+    >
       <Input
         label="E lux"
         tooltip="Iluminância média do ambiente (Lux)"
@@ -116,7 +119,7 @@ export function NumberOfDucts() {
         id="phi_duct"
       />
       <Input
-        label="A (Área do duto)"
+        label="A (Área do ambiente)"
         tooltip="Área do duto (m²)"
         register={register}
         error={errors.a?.message}
@@ -129,7 +132,7 @@ export function NumberOfDucts() {
         id="a"
       />
       <Input
-        label="Fd (Fator de distribuição)"
+        label="Fd (Fator de depreciação)"
         tooltip="Fator de distribuição do duto"
         register={register}
         error={errors.fd?.message}
@@ -142,7 +145,7 @@ export function NumberOfDucts() {
         id="fd"
       />
       <Input
-        label="Cd (Coeficiente de dutos)"
+        label="Cd (Coeficiente de distribuição)"
         tooltip="Coeficiente de dutos"
         register={register}
         error={errors.cd?.message}
@@ -151,9 +154,9 @@ export function NumberOfDucts() {
           valueAsNumber: false
         }}
         type="text"
-        defaultValue={3}
-        // placeholder="Cd"
-        disabled={true}
+        // defaultValue={3}
+        placeholder="Cd/ recomendasse 3"
+        disabled={false}
         id="cd"
       />
       <div>

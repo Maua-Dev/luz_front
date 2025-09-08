@@ -80,7 +80,10 @@ export function AverageIlluminance() {
   ])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
+    >
       <Input
         label="n (Número de dutos)"
         tooltip="Número de dutos no sistema"
@@ -161,9 +164,9 @@ export function AverageIlluminance() {
           valueAsNumber: false
         }}
         type="text"
-        defaultValue={3}
-        // placeholder="Cd"
-        disabled={true}
+        // defaultValue={3}
+        placeholder="Cd/ recomendasse 3"
+        disabled={false}
         id="cd"
       />
       <div>
