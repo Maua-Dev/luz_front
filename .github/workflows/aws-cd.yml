@@ -16,15 +16,18 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v2
-      - name: Determine AWS Account ID
+      - uses: actions/checkout@v4
+      - name: Determine AWS Account ID and Region
         run: |
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID_DEV }}" >> $GITHUB_ENV
+            echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "homolog" ]]; then
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID_HOML }}" >> $GITHUB_ENV
+            echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "prod" ]]; then
             echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID_PROD }}" >> $GITHUB_ENV
+            echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
           else
             echo "Invalid branch name!" && exit 1
           fi
@@ -44,14 +47,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - name: 'DEBUG: Test Certificate Access'
+        run: |
+          echo "Attempting to describe certificate: ${{ env.ACM_CERTIFICATE_ARN }}"
+          aws acm describe-certificate --certificate-arn ${{ env.ACM_CERTIFICATE_ARN }} --region us-east-1
+        env:
+          ACM_CERTIFICATE_ARN: ${{ secrets.DEV_ACM_DEVMAUA_CERTIFICATE_ARN }} 
       - name: Setting stage and stack name
         run: |
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
             echo "STAGE=dev" >> $GITHUB_ENV
+            echo "ACM_CERTIFICATE_ARN=${{ secrets.DEV_ACM_DEVMAUA_CERTIFICATE_ARN }}" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "homolog" ]]; then
             echo "STAGE=homolog" >> $GITHUB_ENV
+            echo "ACM_CERTIFICATE_ARN=${{ secrets.HML_ACM_DEVMAUA_CERTIFICATE_ARN }}" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "prod" ]]; then
             echo "STAGE=prod" >> $GITHUB_ENV
+            echo "ACM_CERTIFICATE_ARN=${{ secrets.PROD_ACM_DEVMAUA_CERTIFICATE_ARN }}" >> $GITHUB_ENV
           else
             echo "Invalid branch name!" && exit 1
           fi
@@ -68,11 +80,13 @@ jobs:
       - name: Setup envs
         run: |
           echo "Stage: ${{ env.STAGE }}"
-          echo AWS_REGION=${{ vars.AWS_REGION }} >> $GITHUB_ENV
+          echo AWS_REGION=${{ env.AWS_REGION }} >> $GITHUB_ENV
           echo AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }} >> $GITHUB_ENV
           echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
           echo GITHUB_REF_NAME=${{ env.STAGE }} >> $GITHUB_ENV
           echo ACM_CERTIFICATE_ARN=${{ secrets.DEVMAUA_ACM_CERTIFICATE_ARN }} >> $GITHUB_ENV
+          echo ALTERNATIVE_DOMAIN_NAME=${{ vars.ALTERNATIVE_DOMAIN_NAME }} >> $GITHUB_ENV
+          echo HOSTED_ZONE_ID=${{ secrets.DEVMAUA_HOSTED_ZONE_ID }} >> $GITHUB_ENV
       - name: Configure bootstrap
         run: |
           echo "Configuring bootstrap"
