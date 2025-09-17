@@ -152,16 +152,17 @@ export function NumberOfDucts() {
         }}
         type="text"
         // defaultValue={3}
-        placeholder="Cd/ recomendasse 3"
+        placeholder="Cd = 3 (Recomendado)"
         disabled={false}
         id="cd"
       />
+      {/* <div className='py-1 text-text-950/70 text-sm'>* recomenda-se 3</div> */}
       <div>
         <p className="text-lg">Resultado:</p>
         <div className="flex flex-col items-start justify-between gap-x-4 gap-y-8 sm:flex-row sm:items-center">
           <div className="border-accent-500 w-full border-2 p-4 sm:w-64 sm:max-w-64">
             <p className="text-text-950 text-lg font-semibold">
-              {result !== null ? result : '0.00'}
+              n = {result !== null ? result : '0.00'}
             </p>
           </div>
           <Button

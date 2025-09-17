@@ -152,7 +152,7 @@ export function AverageIlluminance() {
         id="fd"
       />
       <Input
-        label="Cd (Coeficiente de dutos)"
+        label="Cd (Coeficiente de dutos) *"
         tooltip="Coeficiente de dutos"
         register={register}
         error={errors.cd?.message}
@@ -162,7 +162,7 @@ export function AverageIlluminance() {
         }}
         type="text"
         // defaultValue={3}
-        placeholder="Cd/ recomendasse 3"
+        placeholder="Cd = 3 (Recomendado)"
         disabled={false}
         id="cd"
       />
@@ -171,7 +171,7 @@ export function AverageIlluminance() {
         <div className="flex flex-row items-center justify-between gap-x-4">
           <div className="border-accent-400 w-64 max-w-64 border-2 p-4">
             <p className="text-text-950 text-lg font-semibold">
-              {result !== null ? result : '0.00'}
+              E = {result !== null ? result : '0.00'}
             </p>
           </div>
           <Button
