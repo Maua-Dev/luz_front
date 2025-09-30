@@ -16,12 +16,6 @@ import { HelpCircle, Info } from 'react-feather'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import type z from 'zod'
 
-// type IFormInputs = {
-//   section: number
-//   height: number
-//   reflectance: number
-// }
-
 type IFormInputs = z.infer<typeof IFormInputsSchema>
 
 export function Home() {
