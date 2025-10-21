@@ -155,7 +155,7 @@ export function NumberOfDucts() {
         }}
         type="text"
         // defaultValue={3}
-        placeholder="Cd/ recomendasse 3"
+        placeholder="Cd/ recomenda-se 3"
         disabled={false}
         id="cd"
       />
