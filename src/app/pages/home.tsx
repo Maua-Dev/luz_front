@@ -2,9 +2,9 @@ import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
 import Navbar from '@/app/components/navbar'
 import {
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger
 } from '@/app/components/Tooltip'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
@@ -70,7 +70,7 @@ export function Home() {
 
     try {
       const response = await axios.post(
-        `https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-edl-value?${params}`
+        `https://7yffz0ifbi.execute-api.us-east-1.amazonaws.com/prod/luz-mss/calculate-edl-value?${params}`
       )
       setEdlValue(response.data.calculated_edl_value)
 

@@ -49,7 +49,7 @@ export function NumberOfDucts() {
 
     try {
       const response = await axios.post(
-        `https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-n-value?${params}`
+        `https://7yffz0ifbi.execute-api.us-east-1.amazonaws.com/prod/luz-mss/calculate-n-value?${params}`
       )
       setResult(response.data.calculated_n_value)
     } catch (error) {
