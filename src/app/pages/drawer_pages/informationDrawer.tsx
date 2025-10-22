@@ -30,6 +30,7 @@ function Information() {
           RCR - coeficiente do recinto; <br />
           a, b - dimensões do ambiente (m); <br />h - pé direito útil (da saída
           no forro até o plano de trabalho) (m). <br />
+          EDL - eficiência do duto de luz (%).
         </p>
         <div className="py-2">
           <h1 className="border-text-50 w-full border-b pb-1 text-xl">
