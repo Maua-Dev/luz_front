@@ -44,7 +44,8 @@ export function NumberOfDucts() {
       e_lux: String(Number(data.e_lux.replace(',', '.'))),
       e_external: String(Number(data.e_external.replace(',', '.'))),
       a_area: String(Number(data.a.replace(',', '.'))),
-      fd_value: String(Number(data.fd.replace(',', '.')))
+      fd_value: String(Number(data.fd.replace(',', '.'))),
+      cd_value: String(Number(data.cd.replace(',', '.')))
     }).toString()
 
     try {
@@ -105,8 +106,8 @@ export function NumberOfDucts() {
         id="e_external"
       />
       <Input
-        label="φ (Fator de reflexão do duto)"
-        tooltip="Fator de reflexão do duto"
+        label="φ (Fluxo do duto)"
+        tooltip="Fluxo do duto"
         register={register}
         error={errors.phi_duct?.message}
         register_options={{
@@ -120,7 +121,7 @@ export function NumberOfDucts() {
       />
       <Input
         label="A (Área do ambiente)"
-        tooltip="Área do duto (m²)"
+        tooltip="Área do ambiente (m²)"
         register={register}
         error={errors.a?.message}
         register_options={{
@@ -133,7 +134,7 @@ export function NumberOfDucts() {
       />
       <Input
         label="Fd (Fator de depreciação)"
-        tooltip="Fator de distribuição do duto"
+        tooltip="Fator de depreciação do duto"
         register={register}
         error={errors.fd?.message}
         register_options={{
@@ -146,7 +147,7 @@ export function NumberOfDucts() {
       />
       <Input
         label="Cd (Coeficiente de distribuição)"
-        tooltip="Coeficiente de dutos"
+        tooltip="Coeficiente de distribuição"
         register={register}
         error={errors.cd?.message}
         register_options={{
@@ -155,16 +156,17 @@ export function NumberOfDucts() {
         }}
         type="text"
         // defaultValue={3}
-        placeholder="Cd/ recomenda-se 3"
+        placeholder="Cd = 3 (Recomendado)"
         disabled={false}
         id="cd"
       />
+      {/* <div className='py-1 text-text-950/70 text-sm'>* recomenda-se 3</div> */}
       <div>
         <p className="text-lg">Resultado:</p>
         <div className="flex flex-col items-start justify-between gap-x-4 gap-y-8 sm:flex-row sm:items-center">
           <div className="border-accent-500 w-full border-2 p-4 sm:w-64 sm:max-w-64">
             <p className="text-text-950 text-lg font-semibold">
-              {result !== null ? result : '0.00'}
+              n = {result !== null ? result : '0.00'}
             </p>
           </div>
           <Button

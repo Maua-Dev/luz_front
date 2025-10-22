@@ -45,7 +45,8 @@ export function AverageIlluminance() {
       b_section: String(Number(bSection.replace(',', '.'))),
       e_external: String(Number(data.e_external.replace(',', '.'))),
       a_area: String(Number(data.a.replace(',', '.'))),
-      fd_value: String(Number(data.fd.replace(',', '.')))
+      fd_value: String(Number(data.fd.replace(',', '.'))),
+      cd_value: String(Number(data.cd.replace(',', '.')))
     }).toString()
 
     try {
@@ -115,8 +116,8 @@ export function AverageIlluminance() {
         id="e_external"
       />
       <Input
-        label="φ (Fator de reflexão do duto)"
-        tooltip="Fator de reflexão do duto"
+        label="φ (Fluxo do duto)"
+        tooltip="Fluxo do duto"
         register={register}
         error={errors.phi_duct?.message}
         register_options={{
@@ -129,8 +130,8 @@ export function AverageIlluminance() {
         id="phi_duct"
       />
       <Input
-        label="A (Área do duto)"
-        tooltip="Área do duto (m²)"
+        label="A (Área do ambiente)"
+        tooltip="Área do ambiente (m²)"
         register={register}
         error={errors.a?.message}
         register_options={{
@@ -142,8 +143,8 @@ export function AverageIlluminance() {
         id="a"
       />
       <Input
-        label="Fd (Fator de distribuição)"
-        tooltip="Fator de distribuição do duto"
+        label="Fd (Fator de depreciação)"
+        tooltip="Fator de depreciação"
         register={register}
         error={errors.fd?.message}
         register_options={{
@@ -155,8 +156,8 @@ export function AverageIlluminance() {
         id="fd"
       />
       <Input
-        label="Cd (Coeficiente de dutos)"
-        tooltip="Coeficiente de dutos"
+        label="Cd (Coeficiente de distribuição)"
+        tooltip="Coeficiente de distribuição"
         register={register}
         error={errors.cd?.message}
         register_options={{
@@ -165,7 +166,7 @@ export function AverageIlluminance() {
         }}
         type="text"
         // defaultValue={3}
-        placeholder="Cd/ recomenda-se 3"
+        placeholder="Cd = 3 (Recomendado)"
         disabled={false}
         id="cd"
       />
@@ -174,7 +175,7 @@ export function AverageIlluminance() {
         <div className="flex flex-row items-center justify-between gap-x-4">
           <div className="border-accent-400 w-64 max-w-64 border-2 p-4">
             <p className="text-text-950 text-lg font-semibold">
-              {result !== null ? result : '0.00'}
+              E = {result !== null ? result : '0.00'}
             </p>
           </div>
           <Button
