@@ -30,7 +30,7 @@ export function AverageIlluminance() {
   async function handleSubmitData(data: IAverageIlluminance) {
     setIsLoading(true)
 
-    const edlValue = localStorage.getItem('edl_value')
+    const edlValue = localStorage.getItem('edlValue')
     const bSection = localStorage.getItem('b_section')
 
     if (!edlValue || !bSection) {
@@ -40,12 +40,12 @@ export function AverageIlluminance() {
     }
 
     const param = new URLSearchParams({
-      n_value: data.number_of_ducts.toString(),
+      n_value: String(Number(data.number_of_ducts.replace(',', '.'))),
       edl_prcnt: edlValue!.toString(),
-      b_section: Number(bSection).toString(),
-      e_external: data.e_external.toString(),
-      a_area: data.a.toString(),
-      fd_value: data.fd.toString()
+      b_section: String(Number(bSection.replace(',', '.'))),
+      e_external: String(Number(data.e_external.replace(',', '.'))),
+      a_area: String(Number(data.a.replace(',', '.'))),
+      fd_value: String(Number(data.fd.replace(',', '.')))
     }).toString()
 
     try {
@@ -61,9 +61,11 @@ export function AverageIlluminance() {
   }
 
   useEffect(() => {
-    const edlValue = Number(localStorage.getItem('edl_value'))
-    const bSection = Number(localStorage.getItem('b_section'))
-    const eExternal = getValues('e_external')
+    const edlValue = Number(localStorage.getItem('edlValue'))
+    const bSection = Number(
+      localStorage.getItem('b_section')?.replace(',', '.')
+    )
+    const eExternal = Number(getValues('e_external').replace(',', '.'))
 
     const edlLux = (edlValue * eExternal) / 100
 
@@ -78,7 +80,10 @@ export function AverageIlluminance() {
   ])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
+    >
       <Input
         label="n (Número de dutos)"
         tooltip="Número de dutos no sistema"
@@ -86,13 +91,13 @@ export function AverageIlluminance() {
         error={errors.number_of_ducts?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true,
+          valueAsNumber: false,
           min: {
             value: 1,
             message: 'Valor mínimo é 1'
           }
         }}
-        type="float"
+        type="text"
         placeholder="Número de dutos"
         id="number_of_ducts"
       />
@@ -103,9 +108,9 @@ export function AverageIlluminance() {
         error={errors.e_external?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="E externo (Lux)"
         id="e_external"
       />
@@ -118,7 +123,7 @@ export function AverageIlluminance() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="float"
+        type="number"
         // placeholder="φ"
         disabled={true}
         id="phi_duct"
@@ -130,9 +135,9 @@ export function AverageIlluminance() {
         error={errors.a?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="A (m²)"
         id="a"
       />
@@ -143,9 +148,9 @@ export function AverageIlluminance() {
         error={errors.fd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="Fd"
         id="fd"
       />
@@ -156,12 +161,12 @@ export function AverageIlluminance() {
         error={errors.cd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
-        defaultValue={3}
-        // placeholder="Cd"
-        disabled={true}
+        type="text"
+        // defaultValue={3}
+        placeholder="Cd/ recomendasse 3"
+        disabled={false}
         id="cd"
       />
       <div>

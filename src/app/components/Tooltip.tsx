@@ -62,10 +62,19 @@ function TooltipContent({ children }: TooltipProps) {
     return null // Ensure ref is defined before rendering
   }
 
-  const tooltipPosition = {
-    top: ref.current.offsetTop + ref.current.offsetHeight,
-    left: ref.current.offsetLeft
-  }
+  // Simple mobile detection
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 640
+
+  const tooltipPosition = isMobile
+    ? {
+        top: ref.current.offsetTop + ref.current.offsetHeight,
+        right: 0,
+        left: 'auto'
+      }
+    : {
+        top: ref.current.offsetTop + ref.current.offsetHeight,
+        left: ref.current.offsetLeft
+      }
 
   return (
     <AnimatePresence>
@@ -79,9 +88,10 @@ function TooltipContent({ children }: TooltipProps) {
             position: 'absolute',
             top: tooltipPosition.top,
             left: tooltipPosition.left,
+            right: tooltipPosition.right,
             zIndex: 50
           }}
-          className="bg-background-800 rounded p-2 text-white drop-shadow-lg"
+          className="bg-background-800 w-fit rounded p-2 text-nowrap text-white drop-shadow-lg"
         >
           {children}
         </motion.div>

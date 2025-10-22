@@ -40,11 +40,11 @@ export function NumberOfDucts() {
 
     const params = new URLSearchParams({
       edl_prcnt: edlValue!.toString(),
-      b_section: Number(bSection).toString(),
-      e_lux: data.e_lux.toString(),
-      e_external: data.e_external.toString(),
-      a_area: data.a.toString(),
-      fd_value: data.fd.toString()
+      b_section: String(Number(bSection.replace(',', '.'))),
+      e_lux: String(Number(data.e_lux.replace(',', '.'))),
+      e_external: String(Number(data.e_external.replace(',', '.'))),
+      a_area: String(Number(data.a.replace(',', '.'))),
+      fd_value: String(Number(data.fd.replace(',', '.')))
     }).toString()
 
     try {
@@ -61,8 +61,8 @@ export function NumberOfDucts() {
 
   useEffect(() => {
     const edlValue = Number(localStorage.getItem('edlValue'))
-    const bValue = Number(localStorage.getItem('b_section'))
-    const e_external = getValues('e_external')
+    const bValue = Number(localStorage.getItem('b_section')?.replace(',', '.'))
+    const e_external = Number(getValues('e_external').replace(',', '.'))
 
     const edllux = (edlValue * e_external) / 100
 
@@ -74,7 +74,10 @@ export function NumberOfDucts() {
   ])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
+    >
       <Input
         label="E lux"
         tooltip="Iluminância média do ambiente (Lux)"
@@ -82,9 +85,9 @@ export function NumberOfDucts() {
         error={errors.e_lux?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="E (Lux)"
         id="e_lux"
       />
@@ -95,9 +98,9 @@ export function NumberOfDucts() {
         error={errors.e_external?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="E externo (Lux)"
         id="e_external"
       />
@@ -110,50 +113,50 @@ export function NumberOfDucts() {
           required: 'Campo obrigatório',
           valueAsNumber: true
         }}
-        type="float"
+        type="number"
         // placeholder="φ"
         disabled={true}
         id="phi_duct"
       />
       <Input
-        label="A (Área do duto)"
+        label="A (Área do ambiente)"
         tooltip="Área do duto (m²)"
         register={register}
         error={errors.a?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="A (m²)"
         id="a"
       />
       <Input
-        label="Fd (Fator de distribuição)"
+        label="Fd (Fator de depreciação)"
         tooltip="Fator de distribuição do duto"
         register={register}
         error={errors.fd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
+        type="text"
         placeholder="Fd"
         id="fd"
       />
       <Input
-        label="Cd (Coeficiente de dutos)"
+        label="Cd (Coeficiente de distribuição)"
         tooltip="Coeficiente de dutos"
         register={register}
         error={errors.cd?.message}
         register_options={{
           required: 'Campo obrigatório',
-          valueAsNumber: true
+          valueAsNumber: false
         }}
-        type="float"
-        defaultValue={3}
-        // placeholder="Cd"
-        disabled={true}
+        type="text"
+        // defaultValue={3}
+        placeholder="Cd/ recomendasse 3"
+        disabled={false}
         id="cd"
       />
       <div>
