@@ -1,7 +1,11 @@
 import Button from '@/app/components/button'
 import Input from '@/app/components/Input'
 import Navbar from '@/app/components/navbar'
-import { TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Tooltip'
+import {
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger
+} from '@/app/components/Tooltip'
 import { DrawerContext } from '@/app/contexts/Drawer-context'
 import { AverageIlluminance } from '@/app/pages/calculations/AverageIlluminance'
 import { NumberOfDucts } from '@/app/pages/calculations/NumberOfDucts'
@@ -60,7 +64,7 @@ export function Home() {
 
     try {
       const response = await axios.post(
-        `https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-edl-value?${params}`
+        `https://7yffz0ifbi.execute-api.us-east-1.amazonaws.com/prod/luz-mss/calculate-edl-value?${params}`
       )
       setEdlValue(response.data.calculated_edl_value)
 
@@ -115,7 +119,7 @@ export function Home() {
               </div>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-4"
+                className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
               >
                 <Input
                   label="b (Seção)"
@@ -162,7 +166,8 @@ export function Home() {
                     <div className="border-accent-500 w-full border-2 p-4 sm:w-64 sm:max-w-64">
                       <div className="flex h-full w-full flex-row items-center justify-between p-2">
                         <p className="text-text-950 text-lg font-semibold">
-                          EDL = {edlValue !== null ? edlValue : '0.00'} {edlValue && '%'}
+                          EDL = {edlValue !== null ? edlValue : '0.00'}{' '}
+                          {edlValue && '%'}
                         </p>
                         <TooltipProvider>
                           <TooltipTrigger>
@@ -172,10 +177,11 @@ export function Home() {
                             />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p className="text-text-50 text-sm">Eficiência do Duto de Luz</p>
+                            <p className="text-text-50 text-sm">
+                              Eficiência do Duto de Luz
+                            </p>
                           </TooltipContent>
                         </TooltipProvider>
-                        
                       </div>
                     </div>
                     <Button

@@ -49,7 +49,7 @@ function NavbarLinks() {
               drawerContext?.setComponent(<TableDrawer />)
             }}
           >
-            Tabela
+            Aplicação
           </div>
         </li>
 

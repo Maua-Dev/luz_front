@@ -51,7 +51,7 @@ export function AverageIlluminance() {
 
     try {
       const response = await axios.post(
-        `https://9gmtpev0s7.execute-api.sa-east-1.amazonaws.com/prod/luz-mss/calculate-e-value?${param}`
+        `https://7yffz0ifbi.execute-api.us-east-1.amazonaws.com/prod/luz-mss/calculate-e-value?${param}`
       )
       setResult(response.data.calculated_e_value)
     } catch (error) {
@@ -81,7 +81,10 @@ export function AverageIlluminance() {
   ])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 gap-y-12 sm:gap-y-4"
+    >
       <Input
         label="n (Número de dutos)"
         tooltip="Número de dutos no sistema"
