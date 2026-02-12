@@ -144,7 +144,7 @@ export function AverageIlluminance() {
       />
       <Input
         label="Fd (Fator de depreciação)"
-        tooltip="Fator de depreciação"
+        tooltip="Fator de depreciação do duto (Fd= 1,25 para boa manutenção; Fd= 1,67 para manutenção crítica)"
         register={register}
         error={errors.fd?.message}
         register_options={{
