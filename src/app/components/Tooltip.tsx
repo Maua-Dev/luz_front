@@ -91,7 +91,7 @@ function TooltipContent({ children }: TooltipProps) {
             right: tooltipPosition.right,
             zIndex: 50
           }}
-          className="bg-background-800 w-fit rounded p-2 text-nowrap text-white drop-shadow-lg"
+          className="bg-background-800 w-fit pointer-events-none rounded p-2 max-w-xs break-words text-white drop-shadow-lg"
         >
           {children}
         </motion.div>

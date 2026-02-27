@@ -39,10 +39,10 @@ jobs:
             echo "Invalid branch name!" && exit 1
           fi
 
-      - name: Use Node.js 18.x
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 20.x
       - uses: actions/checkout@v2
       - name: Setup AWS Credentials
         id: aws-credentials
@@ -51,10 +51,10 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/GithubActionsRole
           role-session-name: github-action
-      - name: Use Node.js 18.x
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 20.x
       - name: Setting stage and stack name
         run: |
           if [[ "${{ github.ref_name }}" == "dev" ]]; then
